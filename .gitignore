@@ -1,3 +1,6 @@
+NakOS.iso
+isodir/
+isodir/*
 build/
 build/*
 Toolchain/opt/
