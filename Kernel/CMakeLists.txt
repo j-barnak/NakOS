@@ -9,13 +9,13 @@ target_include_directories(nak PUBLIC ${CMAKE_SOURCE_DIR} )
 
 target_compile_options(nak PRIVATE 
     $<$<CONFIG:Debug>:
-    -fsanitize=address,leak,undefined -pedantic -Wall -Wextra -Wundef -Werror -Wno-unused-parameter
+    -fsanitize=address,leak,undefined -pedantic -Wall -Wextra -Wundef -Werror -Wno-unused-parameter -ffreestanding -fno-exceptions -fno-rtti
     >
 )
 
 target_link_options(nak PRIVATE 
     $<$<CONFIG:Debug>:
-        -fsanitize=address,leak,undefined -T loader.ld # -T loader.ld specifies linker script
+        -fsanitize=address,leak,undefined -ffreestanding -nostdlib -T loader.ld # -T loader.ld specifies linker script
     >
 )
 
