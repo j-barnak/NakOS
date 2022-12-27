@@ -11,13 +11,13 @@ target_include_directories(nak PUBLIC ${CMAKE_SOURCE_DIR})
 
 target_compile_options(nak PUBLIC 
     $<$<CONFIG:Debug>:
-     -pedantic -Wall -Wextra -Wundef -Werror -Wno-unused-parameter -ffreestanding -fno-exceptions -fno-rtti -m32
+     -pedantic -Wall -Wextra -Wundef -Werror -Wno-unused-parameter -ffreestanding -fno-exceptions -fno-rtti -m32 
     >
 )
 
 target_link_options(nak PUBLIC 
     $<$<CONFIG:Debug>:
-     -ffreestanding -nostdlib 
+     -ffreestanding -nostdlib -T${CMAKE_SOURCE_DIR}/Kernel/Boot/${LINKER_SCRIPT}
     >
 )
 
