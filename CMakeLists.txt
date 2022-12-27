@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
-project(NakOS C CXX ASM)
+project(NakOS)
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/Kernel/Boot/loader.ld)
+set(LINKER_SCRIPT loader.ld)
 
 add_executable(nak)
 
@@ -17,7 +17,7 @@ target_compile_options(nak PUBLIC
 
 target_link_options(nak PUBLIC 
     $<$<CONFIG:Debug>:
-     -ffreestanding -nostdlib -T${LINKER_SCRIPT}
+     -ffreestanding -nostdlib 
     >
 )
 
@@ -25,3 +25,5 @@ target_compile_features(nak
     PUBLIC
         cxx_std_20
 )
+
+set_target_properties(nak PROPERTIES LINK_DEPENDS ${CMAKE_SOURCE_DIR}/Kernel/Boot/${LINKER_SCRIPT})
