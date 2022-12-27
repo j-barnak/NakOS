@@ -23,3 +23,6 @@ target_compile_features(nak
     PUBLIC
         cxx_std_20
 )
+
+set_target_properties(nak PROPERTIES LINKER_LANGUAGE CXX)
+
