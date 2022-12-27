@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(NakOS C CXX ASM)
 
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/Kernel/Boot/loader.ld)
+
 add_executable(nak)
 
 add_subdirectory(Kernel)
@@ -15,7 +17,7 @@ target_compile_options(nak PUBLIC
 
 target_link_options(nak PUBLIC 
     $<$<CONFIG:Debug>:
-        -fsanitize=address,leak,undefined -ffreestanding -nostdlib -Tloader.ld 
+        -fsanitize=address,leak,undefined -ffreestanding -nostdlib
     >
 )
 
@@ -24,5 +26,4 @@ target_compile_features(nak
         cxx_std_20
 )
 
-set_target_properties(nak PROPERTIES LINKER_LANGUAGE CXX)
-
+set_target_properties(nak PROPERTIES LINK_DEPENDS ${LINKER_SCRIPT})
