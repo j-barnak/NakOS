@@ -166,3 +166,87 @@ ninja: build stopped: subcommand failed.
 
 
 
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: /home/jared/opt/cross/bin/i686-elf-gcc 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/ld: cannot find crt0.o: No such file or directory
+/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/ld: cannot find -lc: No such file or directory
+collect2: error: ld returned 1 exit status
+
+
+Detecting CXX compiler ABI info failed to compile with the following output:
+Change Dir: /home/jared/projects/cpp_projects/NakOS/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_9fd07 && [1/2] Building CXX object CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.o
+Using built-in specs.
+COLLECT_GCC=/home/jared/opt/cross/bin/i686-elf-gcc
+Target: i686-elf
+Configured with: /home/jared/gcc-12.2.0/configure --target=i686-elf --prefix=/home/jared/opt/cross --disable-nls --enable-languages=c,c++ --without-headers
+Thread model: single
+Supported LTO compression algorithms: zlib
+gcc version 12.2.0 (GCC) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_9fd07.dir/'
+ /home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/cc1plus -quiet -v /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_9fd07.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=pentiumpro -version -o /tmp/cc7T0xsI.s
+GNU C++17 (GCC) version 12.2.0 (i686-elf)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/include/c++/12.2.0"
+ignoring nonexistent directory "/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/include/c++/12.2.0/i686-elf"
+ignoring nonexistent directory "/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/include/c++/12.2.0/backward"
+ignoring nonexistent directory "/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/sys-include"
+ignoring nonexistent directory "/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/include
+ /home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/include-fixed
+End of search list.
+GNU C++17 (GCC) version 12.2.0 (i686-elf)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: a71b2f8455af7e69acb54df10fee9714
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_9fd07.dir/'
+ /home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/as -o CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc7T0xsI.s
+COMPILER_PATH=/home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/libexec/gcc/i686-elf/:/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/lib/gcc/i686-elf/:/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/
+LIBRARY_PATH=/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.'
+[2/2] Linking CXX executable cmTC_9fd07
+FAILED: cmTC_9fd07 
+: && /home/jared/opt/cross/bin/i686-elf-gcc  -v CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_9fd07   && :
+Using built-in specs.
+COLLECT_GCC=/home/jared/opt/cross/bin/i686-elf-gcc
+COLLECT_LTO_WRAPPER=/home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/lto-wrapper
+Target: i686-elf
+Configured with: /home/jared/gcc-12.2.0/configure --target=i686-elf --prefix=/home/jared/opt/cross --disable-nls --enable-languages=c,c++ --without-headers
+Thread model: single
+Supported LTO compression algorithms: zlib
+gcc version 12.2.0 (GCC) 
+COMPILER_PATH=/home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/libexec/gcc/i686-elf/:/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/lib/gcc/i686-elf/:/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/
+LIBRARY_PATH=/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/:/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9fd07' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'cmTC_9fd07.'
+ /home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/collect2 -plugin /home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/liblto_plugin.so -plugin-opt=/home/jared/opt/cross/libexec/gcc/i686-elf/12.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cc258CdM.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_9fd07 crt0.o /home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/crtbegin.o -L/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0 -L/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/lib CMakeFiles/cmTC_9fd07.dir/CMakeCXXCompilerABI.cpp.o -lgcc -lc -lgcc /home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/crtend.o
+/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/ld: cannot find crt0.o: No such file or directory
+/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/ld: cannot find -lc: No such file or directory
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+
+
+
+Determining if the CXX compiler works failed with the following output:
+Change Dir: /home/jared/projects/cpp_projects/NakOS/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_76a99 && [1/2] Building CXX object CMakeFiles/cmTC_76a99.dir/testCXXCompiler.cxx.o
+[2/2] Linking CXX executable cmTC_76a99
+FAILED: cmTC_76a99 
+: && /home/jared/opt/cross/bin/i686-elf-gcc   CMakeFiles/cmTC_76a99.dir/testCXXCompiler.cxx.o -o cmTC_76a99   && :
+/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/ld: cannot find crt0.o: No such file or directory
+/home/jared/opt/cross/lib/gcc/i686-elf/12.2.0/../../../../i686-elf/bin/ld: cannot find -lc: No such file or directory
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+
+

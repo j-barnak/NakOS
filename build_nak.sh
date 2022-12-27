@@ -8,4 +8,4 @@ export PATH="$PREFIX/bin:$PATH"
 export CXX="$HOME/opt/cross/bin/$TARGET-gcc"
 
 # Generate the files in the build/ directory
-cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNinja
+# cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNinja
