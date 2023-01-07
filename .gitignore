@@ -5,3 +5,5 @@ build/
 build/*
 Toolchain/opt/
 Toolchain/opt/*
+.cache/
+.cache/*
