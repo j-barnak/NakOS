@@ -7,3 +7,4 @@ Toolchain/opt/
 Toolchain/opt/*
 .cache/
 .cache/*
+build_commands.json

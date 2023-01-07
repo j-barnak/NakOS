@@ -1,7 +1,8 @@
 #pragma once
-// We are in a Freestanding environment
-// https://en.cppreference.com/w/cpp/freestanding
 
+// Only a limited amount of headers are allowed
+// becasuse we are in a Freestanding environment
+// https://en.cppreference.com/w/cpp/freestanding
 #include <cstdint>
 
 namespace Kernel 
