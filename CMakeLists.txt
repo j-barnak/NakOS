@@ -11,7 +11,7 @@ target_include_directories(nak PUBLIC ${CMAKE_SOURCE_DIR})
 
 target_compile_options(nak PUBLIC 
     $<$<CONFIG:Debug>:
-     -pedantic -Wall -Wextra -Wundef -Werror -Wno-unused-parameter -ffreestanding -fno-exceptions -fno-rtti -m32 
+     -pedantic -Wall -Wextra -Wundef -Werror -Wno-unused-parameter -ffreestanding -fno-exceptions -fno-rtti
     >
 )
 
