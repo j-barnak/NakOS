@@ -13,3 +13,16 @@ cross compiler in folder called `Toolchain/`.
 cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNinja -DCMAKE_TOOLCHAIN_FILE=Toolchain/os-dev-toolchain.cmake
 ```
 
+## Misc.
+
+A `build/compile_commands.json` file will be created, but will not be using a standard library and additionally, we are in a freestanding environment. This means that
+the compiler provides some header files. This also means that `clang` will probably not find these included files. To avoid this, add the cross-compiler location
+to "directory" property like so:
+
+```
+[
+    {
+    "directory": /location/of/your/cross-compiler/
+    }
+]
+```
