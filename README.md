@@ -35,14 +35,14 @@ cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNi
 
 ### LSP Setup
 
-If you're using `clangd`, you have to pass `--query-driver=/path/to/cross-compiler` as an argument. I use Conquer of Completion, better known simply as CoC. In my CoC config file (you reach
-this file with `:CocConfig`) within vim.  The file should look like:
+If you're using `clangd`, you have to pass `--query-driver=/path/to/cross-compiler` as an argument. I use Conquer of Completion, better known simply as CoC. In my CoC **local** config file (you reach
+this file with `:CocLocalConfig`) within vim.  The file should look like:
 
     {
         "clangd.arguments": ["--query-driver=/home/jared/projects/cpp_projects/NakOS/Toolchain/opt/cross/bin/i686-elf-g++"]
     }
 
-You may have more properties within the configuration file and the path to the cross-compiler  will certainly differ.
+You may have more properties within the configuration file and the path to the cross-compiler will certainly differ.
 
 
 
