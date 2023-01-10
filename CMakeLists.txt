@@ -6,6 +6,7 @@ set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/Kernel/Boot/loader.ld)
 add_executable(nak)
 
 add_subdirectory(Kernel)
+add_subdirectory(Kernel/Graphics)
 
 target_include_directories(nak PUBLIC ${CMAKE_SOURCE_DIR})
 

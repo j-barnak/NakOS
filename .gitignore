@@ -1,4 +1,3 @@
-.clang-format
 NakOS.iso
 isodir/
 isodir/*
@@ -6,6 +5,8 @@ build/
 build/*
 Toolchain/opt/
 Toolchain/opt/*
+Toolchain/src/
+Toolchain/src/*
 .cache/
 .cache/*
 build_commands.json
