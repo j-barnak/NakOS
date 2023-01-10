@@ -1,4 +1,4 @@
-#include "Kernel/inc/kernel.hpp"
+#include "inc/kernel.hpp"
 
 void Kernel::kernel_main()
 {

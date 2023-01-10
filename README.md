@@ -34,15 +34,15 @@ cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNi
 ## Misc.
 
 ### LSP Setup
-A `build/compile_commands.json` file will be created, but will not be using a standard library and additionally, we are in a freestanding environment. This means that
-the compiler provides some header files. This also means that `clang` will probably not find these included files. To avoid this, add the cross-compiler location
-to "directory" property like so:
 
-```
-[
+If you're using `clangd`, you have to pass `--query-driver=/path/to/cross-compiler` as an argument. I use Conquer of Completion, better known simply as CoC. In my CoC config file (you reach
+this file with `:CocConfig`) within vim.  The file should look like:
+
     {
-    "directory": /location/of/your/cross-compiler/
+        "clangd.arguments": ["--query-driver=/home/jared/projects/cpp_projects/NakOS/Toolchain/opt/cross/bin/i686-elf-g++"]
     }
-]
-```
+
+You may have more properties within the configuration file and the path to the cross-compiler  will certainly differ.
+
+
 
