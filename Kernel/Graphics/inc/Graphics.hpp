@@ -13,7 +13,6 @@ namespace Kernel {
 class GraphicsDriver
 {
   public:
-    void foo() const;
     /* Hardware text mode color constants. */
     enum class VGA_Color {
         VGA_COLOR_BLACK,
