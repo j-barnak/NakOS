@@ -38,11 +38,33 @@ cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNi
 If you're using `clangd`, you have to pass `--query-driver=/path/to/cross-compiler` as an argument. I use Conquer of Completion, better known simply as CoC. In my CoC **local** config file (you reach
 this file with `:CocLocalConfig`) within vim.  The file should look like:
 
-    {
-        "clangd.arguments": ["--query-driver=/home/jared/projects/cpp_projects/NakOS/Toolchain/opt/cross/bin/i686-elf-g++"]
+```
+{
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "args": ["--background-index", "--query-driver", "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++"],
+      "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["c", "cpp", "objc", "objcpp"]
     }
+  }
+}
+```
 
-You may have more properties within the configuration file and the path to the cross-compiler will certainly differ.
+You may have more properties within the configuration file and the path to the cross-compiler will certainly differ. For example,
+my full `NakOS/.vim/coc-settings.json`, looks like:
 
+```
+{
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "args": ["--query-driver", "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++"],
+      "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["c", "cpp", "objc", "objcpp"]
+    }
+  },
 
-
+  "suggest.noselect": true
+}
+```
