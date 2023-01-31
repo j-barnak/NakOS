@@ -38,8 +38,9 @@ class GraphicsDriver
   private:
     struct ColorCode 
     {
+
     };
     
 };
 
-}// namespace Kernel
+} // namespace Kernel
