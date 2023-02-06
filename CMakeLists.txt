@@ -22,5 +22,5 @@ target_link_options(nak PUBLIC
 
 set_target_properties(nak PROPERTIES 
     LINK_DEPENDS ${LINKER_SCRIPT}
-    CXX_STANDARD 23
+    CXX_STANDARD 20
 )
