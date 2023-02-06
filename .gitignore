@@ -1,3 +1,8 @@
+.nslp-settings/
+.nslp-settings/*
+.exrc.lua
+.nvim
+.nvim/*
 .vim
 .vim/*
 NakOS.iso
