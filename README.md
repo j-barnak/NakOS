@@ -68,3 +68,29 @@ my full `NakOS/.vim/coc-settings.json`, looks like:
   "suggest.noselect": true
 }
 ```
+
+If you are using NeoVim and `lsp_config`, you could add the following to your `init.lua`. Replace `project_root` with your project directory 
+and replace 
+
+```
+"/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
+```
+
+with where your compiler is located
+
+```
+local lspconfig = require("lspconfig")
+local project_root = "/home/jared/Projects/CPP/NakOS"
+
+if vim.fn.getcwd() == project_root then
+    lspconfig.clangd.setup({
+        cmd = {
+            "clangd",
+            "--background-index",
+            "--query-driver",
+            "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
+        },
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+    })
+end
+```
