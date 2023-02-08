@@ -94,3 +94,21 @@ if vim.fn.getcwd() == project_root then
     })
 end
 ```
+An alternative way to configure your `init.lua` is by adding the following:
+
+```
+require("lspconfig").clangd.setup({
+    on_new_config = function(config, root_dir)
+        local path = "/home/jared/Projects/CPP/NakOS"
+        if vim.startswith(root_dir, path) then
+            config.cmd = {
+                "clangd",
+                "--background-index",
+                "--query-driver",
+                "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
+            }
+        end
+    end,
+})`
+```
+Which accomplishes the same thing
