@@ -112,3 +112,24 @@ require("lspconfig").clangd.setup({
 })`
 ```
 Which accomplishes the same thing
+
+And if you're using LazyVim, you can add create a folder under `lua/plugins` and add the following
+
+```
+-- File: ~/.config/nvim/lua/plugins/lspconfig.lua
+
+return {
+    "neovim/nvim-lspconfig",
+    config = function()
+        require("lspconfig").clangd.setup({
+            cmd = {
+                "clangd",
+                "--background-index",
+                "--query-driver",
+                "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
+            },
+            filetypes = { "c", "cpp", "objc", "objcpp" },
+        })
+    end,
+}
+```
