@@ -41,12 +41,6 @@ struct ScreenChar
     ColorCode color_code;
 };
 
-struct Writer
-{
-    std::size_t column_position;
-    ColorCode   color_code;
-};
-
 template<std::size_t width, std::size_t height>
 struct Buffer
 {

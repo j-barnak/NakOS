@@ -19,6 +19,8 @@ class Graphics
     static constexpr std::size_t m_width  = 80;
     static constexpr std::size_t m_height = 25;
     Buffer<m_width, m_height>    m_buffer;
+    std::size_t                  m_column_position;
+    ColorCode                    m_color_code;
 
   public:
       void write_byte(std::byte);
