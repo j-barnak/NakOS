@@ -11,6 +11,9 @@
 // https://os.phil-opp.com/vga-text-mode/
 // https://wiki.osdev.org/Bare_Bones
 
+// TODO: We need to write to 0xb8000, so we should find the best way to write to 
+//       that address. We have to write to the buffer, so we need to set that address
+//       to where the IO is being performed.
 class Graphics
 {
   private:
@@ -18,7 +21,7 @@ class Graphics
     //        find better ways to to implement
     static constexpr std::size_t m_width  = 80;
     static constexpr std::size_t m_height = 25;
-    Buffer<m_width, m_height>    m_buffer;
+    Buffer<m_width, m_height>*   m_buffer = (Buffer<m_width, m_height>*)0xb8000;
     std::size_t                  m_column_position;
     ColorCode                    m_color_code;
 
