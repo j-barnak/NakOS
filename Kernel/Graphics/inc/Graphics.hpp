@@ -26,8 +26,10 @@ class Graphics
     ColorCode                    m_color_code;
 
   public:
-      void write_byte(std::byte);
-      void write_string(char[m_width]);
-
+    void init_terminal();
+    // TODO: Implement 
+    void write_byte(std::byte);
+    // TODO: Implement 
+    void write_string(char srting[m_width]);
 };
 
