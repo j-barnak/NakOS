@@ -19,17 +19,20 @@ class Graphics
   private:
     // FIXME: Using static as a bandaid.
     //        find better ways to to implement
-    static constexpr std::size_t m_width  = 80;
+    static constexpr std::size_t m_width = 80;
     static constexpr std::size_t m_height = 25;
-    Buffer<m_width, m_height>*   m_buffer = (Buffer<m_width, m_height>*)0xb8000;
-    std::size_t                  m_column_position;
-    ColorCode                    m_color_code;
+    std::size_t m_column_position;
+    using TerminalBuffer = Buffer<m_width, m_height>*;
+    TerminalBuffer m_buffer;
+    ColorCode m_color_code;
 
   public:
+    Graphics();
+    // TODO: Make a factory fuunction that initializes m_buffer;
     void init_terminal();
-    // TODO: Implement 
+    // TODO: Need to implement 
     void write_byte(std::byte);
-    // TODO: Implement 
+    // TODO: Need to implement 
     void write_string(char srting[m_width]);
 };
 

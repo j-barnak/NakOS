@@ -1,27 +1,26 @@
 #pragma once
 
-#include <cstdint>
 #include <cstddef>
-
+#include <cstdint>
 
 /* Hardware text mode color constants. */
 enum class VGA_Color : std::uint8_t {
-    VGA_COLOR_BLACK = 0,
-    VGA_COLOR_BLUE = 1,
-    VGA_COLOR_GREEN = 2,
-    VGA_COLOR_CYAN = 3,
-    VGA_COLOR_RED = 4,
-    VGA_COLOR_MAGENTA = 5,
-    VGA_COLOR_BROWN = 6,
-    VGA_COLOR_LIGHT_GREY = 7,
-    VGA_COLOR_DARK_GREY = 8,
-    VGA_COLOR_LIGHT_BLUE = 9,
-    VGA_COLOR_LIGHT_GREEN = 10,
-    VGA_COLOR_LIGHT_CYAN = 11,
-    VGA_COLOR_LIGHT_RED = 12,
-    VGA_COLOR_LIGHT_MAGENTA = 13,
-    VGA_COLOR_LIGHT_BROWN = 14,
-    VGA_COLOR_WHITE = 15
+    Black = 0,
+    Blue = 1,
+    Green = 2,
+    Cyan = 3,
+    Red = 4,
+    Magenta = 5,
+    Brown = 6,
+    Light_Grey = 7,
+    Dark_Grey = 8,
+    Light_Blue = 9,
+    Light_Green = 10,
+    Light_Cyan = 11,
+    Light_Red = 12,
+    Light_Magenta = 13,
+    Light_Brown = 14,
+    White = 15
 };
 
 /* Defines the full color */
@@ -35,6 +34,8 @@ struct ColorCode
 };
 
 /* Defines the actual characters */
+// TODO: Investigate this to see if this is correct
+//       Why do I have ColorCode and ScreenChar? Are these 16-bytes? or is it one byte?
 struct ScreenChar
 {
     std::uint8_t ascii_char;
@@ -44,5 +45,5 @@ struct ScreenChar
 template<std::size_t width, std::size_t height>
 struct Buffer
 {
-    ScreenChar buffer[width][height];
+    ScreenChar buffer[width][height];  
 };

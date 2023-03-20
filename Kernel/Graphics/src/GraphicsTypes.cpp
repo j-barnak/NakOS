@@ -1,7 +1,12 @@
 #include "inc/Graphics.hpp"
 
-// TODO: Fully Implement
-ColorCode::ColorCode(VGA_Color foreground, VGA_Color background)
+ColorCode::ColorCode(VGA_Color foreground, VGA_Color background) 
+    : color{ determine_color(foreground, background) } 
+{
+}
+
+ColorCode::ColorCode() 
+    : ColorCode(VGA_Color::Green, VGA_Color::Red) 
 {
 }
 
