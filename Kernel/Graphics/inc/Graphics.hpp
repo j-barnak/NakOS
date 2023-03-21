@@ -13,7 +13,7 @@
 
 // TODO: We need to write to 0xb8000, so we should find the best way to write to 
 //       that address. We have to write to the buffer, so we need to set that address
-//       to where the IO is being performed.
+//       to where the IO is being performed. 
 class Graphics
 {
   private:
@@ -22,17 +22,14 @@ class Graphics
     static constexpr std::size_t m_width = 80;
     static constexpr std::size_t m_height = 25;
     std::size_t m_column_position;
-    using TerminalBuffer = Buffer<m_width, m_height>*;
-    TerminalBuffer m_buffer;
-    ColorCode m_color_code;
+
+    using TerminalBuffer = ScreenChar[m_width][m_height];
+    TerminalBuffer* m_buffer;
 
   public:
     Graphics();
-    // TODO: Make a factory fuunction that initializes m_buffer;
     void init_terminal();
-    // TODO: Need to implement 
-    void write_byte(std::byte);
-    // TODO: Need to implement 
-    void write_string(char srting[m_width]);
+    void write_byte(std::uint8_t);
+    ScreenChar get_character(std::uint8_t character, ColorCode color);
 };
 

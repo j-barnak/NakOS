@@ -1,5 +1,6 @@
 set(GRAPHICS_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GraphicsTypes.cpp
 )
 
 target_include_directories(nak PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

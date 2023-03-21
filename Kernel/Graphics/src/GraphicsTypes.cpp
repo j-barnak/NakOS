@@ -1,7 +1,7 @@
 #include "inc/Graphics.hpp"
 
 ColorCode::ColorCode(VGA_Color foreground, VGA_Color background) 
-    : color{ determine_color(foreground, background) } 
+    : color { determine_color(foreground, background) } 
 {
 }
 

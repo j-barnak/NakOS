@@ -45,10 +45,12 @@ struct ScreenChar
 //       implement Graphics::init_terminal()
 //
 //       Here's a good link: https://stackoverflow.com/questions/42975152/square-bracket-operator-overloading-c
-//template<std::size_t width, std::size_t height>
-//struct Buffer
-//{
-    //ScreenChar buffer[width][height];  
-//};
+template<std::size_t width, std::size_t height>
+struct Buffer
+{
+    ScreenChar buffer[width][height];  
+
+    Buffer& operator=(ScreenChar screen_char);
+};
 
 
