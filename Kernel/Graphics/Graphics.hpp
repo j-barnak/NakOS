@@ -27,9 +27,9 @@ class Graphics
     TerminalBuffer* m_buffer;
 
   public:
-    Graphics();
+    constexpr Graphics();
     void init_terminal();
-    void write_byte(std::uint8_t);
-    ScreenChar get_character(std::uint8_t character, ColorCode color);
+    constexpr ScreenChar get_character(std::uint8_t character, ColorCode color);
+    constexpr ScreenChar get_character(std::uint8_t character);
 };
 

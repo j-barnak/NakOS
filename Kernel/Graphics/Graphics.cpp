@@ -9,22 +9,24 @@ Graphics::Graphics()
 // TODO: Need to finish implementation
 void Graphics::init_terminal() 
 {
+    char c = 'a';
+    auto vga_char = get_character(static_cast<std::uint8_t>(c));
 
-    auto c = get_character(static_cast<std::uint8_t>('a'), {});
     for (std::size_t i = 0; i < m_height; ++i) {
         for (std::size_t j = 0; j < m_width; ++j) {
-            *m_buffer[i][j] = c;
+            *m_buffer[i][j] = vga_char;
+            c++;
+            vga_char = get_character(static_cast<std::uint8_t>(c));
         }
     }
 }
 
-// TODO: Need to finish implementation
-void Graphics::write_byte(std::uint8_t)
-{
-
-}
-
-ScreenChar Graphics::get_character(std::uint8_t character, ColorCode color)
+constexpr ScreenChar Graphics::get_character(std::uint8_t character, ColorCode color)
 {
     return  ScreenChar { character, color };
+}
+
+constexpr ScreenChar Graphics::get_character(std::uint8_t character)
+{
+    return  get_character(character, {} );
 }
