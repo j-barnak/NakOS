@@ -3,7 +3,10 @@
 #include <cstddef>
 #include <cstdint>
 
- // Hardware text mode color constants. 
+//TODO: Make it so that the structs are properly packed to fit 
+//      2 bytes
+
+// Hardware text mode color constants. 
 enum class VGA_Color : std::uint8_t {
     Black = 0,
     Blue = 1,
@@ -23,7 +26,7 @@ enum class VGA_Color : std::uint8_t {
     White = 15
 };
 
- // Defines the full color 
+// Defines the full color 
 struct ColorCode
 {
     std::uint8_t color;
@@ -34,21 +37,9 @@ struct ColorCode
     std::uint8_t determine_color(VGA_Color foreground, VGA_Color background);
 };
 
- // Defines the actual characters 
+// Defines the actual characters on VGA Screen
 struct ScreenChar
 {
     std::uint8_t ascii_char;
     ColorCode color_code;
 };
-
-// TODO: Overload operator= and operator[] so that I could
-//       implement Graphics::init_terminal()
-//
-//       Here's a good link: https://stackoverflow.com/questions/42975152/square-bracket-operator-overloading-c
-//template<std::size_t width, std::size_t height>
-//struct Buffer
-//{
-    //ScreenChar buffer[width][height];  
-//};
-
-
