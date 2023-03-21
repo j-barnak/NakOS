@@ -1,4 +1,4 @@
-#include "inc/Graphics.hpp"
+#include "Graphics.hpp"
 
 Graphics::Graphics()
     : m_column_position { 0 },

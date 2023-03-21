@@ -1,5 +1,5 @@
-#include "inc/kernel.hpp"
-#include "inc/Graphics.hpp"
+#include "kernel.hpp"
+#include "Graphics.hpp"
 
 void kernel_main()
 {

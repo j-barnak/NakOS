@@ -3,7 +3,7 @@
 // Only a limited amount of headers are allowed
 // becasuse we are in a Freestanding environment
 // https://en.cppreference.com/w/cpp/freestanding
-#include "inc/GraphicsTypes.hpp"
+#include "GraphicsTypes.hpp"
 
 // VGA Text Mode
 // Allows the ability to write to the terminal
