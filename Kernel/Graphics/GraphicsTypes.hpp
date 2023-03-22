@@ -24,7 +24,7 @@ enum class VGA_Color : std::uint8_t {
 };
 
 // Defines the full color 
-#pragma pack(1)
+#pragma pack(push, 1)
 struct ColorCode
 {
     std::uint8_t color;
@@ -34,13 +34,13 @@ struct ColorCode
 
     std::uint8_t determine_color(VGA_Color foreground, VGA_Color background);
 };
-#pragma pack (pop, 1)
+#pragma pack(pop)
 
 // Defines the actual characters on VGA Screen
-#pragma pack(1)
+#pragma pack(push, 1)
 struct ScreenChar
 {
     std::uint8_t ascii_char;
     ColorCode color_code;
 };
-#pragma pack (pop, 1)
+#pragma pack(pop)
