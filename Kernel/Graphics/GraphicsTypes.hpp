@@ -34,6 +34,7 @@ struct ColorCode
 
     std::uint8_t determine_color(VGA_Color foreground, VGA_Color background);
 };
+#pragma pack (pop, 1)
 
 // Defines the actual characters on VGA Screen
 #pragma pack(1)
@@ -42,3 +43,4 @@ struct ScreenChar
     std::uint8_t ascii_char;
     ColorCode color_code;
 };
+#pragma pack (pop, 1)
