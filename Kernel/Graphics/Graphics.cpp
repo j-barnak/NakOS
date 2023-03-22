@@ -8,7 +8,6 @@ Graphics::Graphics()
 
 void Graphics::init_terminal() 
 {
-    // Using 0 as a value because we are clearing the terminal
     auto initial_value = ScreenChar { static_cast<std::uint8_t>('a'), ColorCode { VGA_Color::White, VGA_Color::Black } };
 
     for (std::size_t i = 0; i < m_row; ++i) {
