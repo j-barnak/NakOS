@@ -3,9 +3,6 @@
 #include <cstddef>
 #include <cstdint>
 
-//TODO: Make it so that the structs are properly packed to fit 
-//      2 bytes
-
 // Hardware text mode color constants. 
 enum class VGA_Color : std::uint8_t {
     Black = 0,
@@ -27,17 +24,19 @@ enum class VGA_Color : std::uint8_t {
 };
 
 // Defines the full color 
+#pragma pack(1)
 struct ColorCode
 {
     std::uint8_t color;
 
-    ColorCode(VGA_Color foreground, VGA_Color background);
+    explicit ColorCode(VGA_Color foreground, VGA_Color background);
     ColorCode();
 
     std::uint8_t determine_color(VGA_Color foreground, VGA_Color background);
 };
 
 // Defines the actual characters on VGA Screen
+#pragma pack(1)
 struct ScreenChar
 {
     std::uint8_t ascii_char;

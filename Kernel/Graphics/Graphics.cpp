@@ -6,11 +6,10 @@ Graphics::Graphics()
 {
 }
 
-// TODO: Implement
 void Graphics::init_terminal() 
 {
     // Using 0 as a value because we are clearing the terminal
-    auto initial_value = ScreenChar { 0, ColorCode { 0, VGA_Color::White } };
+    auto initial_value = ScreenChar { 0, ColorCode { VGA_Color::White, VGA_Color::White } };
 
     for (std::uint16_t i = 0; i < m_row; ++i) {
         for (std::uint16_t j = 0; j < m_column; ++j) {
@@ -19,12 +18,12 @@ void Graphics::init_terminal()
     }
 }
 
- ScreenChar Graphics::get_character(std::uint8_t character, ColorCode color)
+ScreenChar Graphics::get_character(std::uint8_t character, ColorCode color)
 {
     return  ScreenChar { character, color };
 }
 
- ScreenChar Graphics::get_character(std::uint8_t character)
+ScreenChar Graphics::get_character(std::uint8_t character)
 {
     return  get_character(character, {} );
 }
