@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsTypes.hpp"
+#include "GraphicTypes.hpp"
 
 class Graphics
 {
