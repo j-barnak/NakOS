@@ -15,6 +15,8 @@ class Graphics
   public:
     Graphics();
     void init_terminal();
+    // TODO: Implement
+    void enable_blinking();
     ScreenChar get_character(std::uint8_t character, ColorCode color);
     ScreenChar get_character(std::uint8_t character);
 };
