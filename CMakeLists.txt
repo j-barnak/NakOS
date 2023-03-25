@@ -7,6 +7,7 @@ add_executable(nak)
 
 add_subdirectory(Kernel)
 add_subdirectory(Kernel/Graphics)
+add_subdirectory(Utilities)
 
 target_include_directories(nak PUBLIC ${CMAKE_SOURCE_DIR})
 
