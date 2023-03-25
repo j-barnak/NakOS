@@ -10,11 +10,8 @@ class Graphics
     static constexpr std::uint8_t m_width  = 80;
     std::size_t m_column_position;
 
-    using TerminalBuffer = ScreenChar[m_height][m_width];
+    using TerminalBuffer = Array<ScreenChar, m_height * m_width>;
     TerminalBuffer* m_buffer;
-
-    using tbuf = Array<ScreenChar, m_height * m_width>;
-    tbuf *buf;
 
   public:
     Graphics();
