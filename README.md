@@ -2,6 +2,8 @@
 
 NakOS is an operating system written using C++.
 
+![NakOS](https://user-images.githubusercontent.com/96548573/227746869-a1aa9cdb-babc-4143-a422-118469eccab9.png)
+
 ## Developing for NakOS
 
 To develop for NakOS, you must first set up your cross-compiler. Instructions on how to do this could be found [here](https://wiki.osdev.org/GCC_Cross-Compiler#Why_cross-compilers_are_necessary). Put the 
