@@ -23,7 +23,7 @@ case $PWD/ in
 
     # Configure, build, and install Binutils
     cd src
-    git clone git://sourceware.org/git/binutils-gdb.git
+    git clone https://github.com/bminor/binutils-gdb.git
     mkdir build-binutils
     cd build-binutils
     ../binutils-gdb/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
@@ -35,7 +35,7 @@ case $PWD/ in
     git clone git://gcc.gnu.org/git/gcc.git gcc
     mkdir build-gcc
     cd build-gcc
-    ../gcc/configure --target=$TARGET -- prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --disable-hosted-libstdcxx
+    ../gcc/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --disable-hosted-libstdcxx
     make all-gcc
     make all-target-libgcc
     make all-target-libstdc++-v3
