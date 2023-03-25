@@ -2,19 +2,21 @@
 
 Graphics::Graphics()
     : m_column_position { 0 },
-      m_buffer { reinterpret_cast<TerminalBuffer*>(0xb8000) }
+      m_buffer { reinterpret_cast<TerminalBuffer*>(0xb8000) },
+      buf { reinterpret_cast<tbuf*>(0xb8000) }
 {
 }
 
-void Graphics::init_terminal() 
+void Graphics::init_terminal()
 {
-    // Zero Because we initialize terminal so that it's a white screen 
-    auto initial_value = ScreenChar { 0 , ColorCode { VGA_Color::White, VGA_Color::Black } };
+    auto initial_value = ScreenChar{ static_cast<std::uint8_t>('a'), ColorCode{ VGA_Color::White, VGA_Color::Black } };
 
-    for (std::size_t i = 0; i < m_row; ++i) {
-        for (std::size_t j = 0; j < m_column; ++j) {
-            (*m_buffer)[i][j] = initial_value;
-            ++m_column_position; 
+    for (std::size_t y = 0; y < m_height; ++y) {
+        for (std::size_t x = 0; x < m_width; ++x) {
+            auto idx = x * m_height + y;
+            (*buf)[idx] = initial_value;
+            //(*m_buffer)[y][x] = initial_value;
+            ++m_column_position;
         }
     }
 }
