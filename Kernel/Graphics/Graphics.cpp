@@ -2,7 +2,7 @@
 
 Graphics::Graphics()
     : m_column_position { 0 },
-      m_buffer { reinterpret_cast<TerminalBuffer*>(0xb8000) }
+      m_buffer { std::bit_cast<TerminalBuffer*>(0xb8000) }
 {
 }
 
