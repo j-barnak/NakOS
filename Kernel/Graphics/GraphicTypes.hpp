@@ -29,12 +29,37 @@ struct ColorCode
 {
     std::uint8_t color;
 
-    explicit ColorCode(VGA_Color foreground, VGA_Color background);
-    ColorCode();
+    constexpr explicit ColorCode(VGA_Color foreground, VGA_Color background);
+    constexpr ColorCode();
 
-    std::uint8_t determine_color(VGA_Color foreground, VGA_Color background);
+    constexpr std::uint8_t determine_color(VGA_Color foreground, VGA_Color background);
 };
 #pragma pack(pop)
+
+///
+/// Definitions for ColorCode
+///
+constexpr ColorCode::ColorCode(VGA_Color foreground, VGA_Color background) 
+    : color { determine_color(foreground, background) } 
+{
+}
+
+constexpr ColorCode::ColorCode() 
+    : ColorCode(VGA_Color::Green, VGA_Color::Red) 
+{
+}
+
+// We OR together two values to create one byte
+// Each value has the possibility of being 4 bits wide (i.e., a nibble wide)
+// The foreground nibble is the 4 most significant bits so we need to shift that left
+// And the background bits are in the correct position so no need to shift
+constexpr std::uint8_t ColorCode::determine_color(VGA_Color foreground, VGA_Color background)
+{
+    return static_cast<std::uint8_t>(background) | ( static_cast<std::uint8_t>(foreground) << 4);
+}
+///
+/// End ColorCode definitions
+///
 
 // Defines the actual characters on VGA Screen
 #pragma pack(push, 1)
