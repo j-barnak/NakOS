@@ -58,7 +58,7 @@ constexpr std::uint8_t ColorCode::determine_color(VGA_Color foreground, VGA_Colo
     return static_cast<std::uint8_t>(background) | ( static_cast<std::uint8_t>(foreground) << 4);
 }
 ///
-/// End ColorCode definitions
+/// End Definitions for ColorCode
 ///
 
 // Defines the actual characters on VGA Screen
