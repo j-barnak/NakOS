@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bit>
 #include "GraphicTypes.hpp"
 #include "Array.hpp"
 
