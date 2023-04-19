@@ -33,27 +33,14 @@ make install-target-libgcc
 cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNinja -DCMAKE_TOOLCHAIN_FILE=Toolchain/os-dev-toolchain.cmake
 ```
 
-## Misc.
+.
 
-### LSP Setup
+## LSP Setup
 
-If you have **Neovim 0.9.0 or above**, you can have an `.nvim.lua` file with the following
+### Vim
 
-```
-require("lspconfig").clangd.setup({
-    on_new_config = function(config)
-            config.cmd = {
-                "clangd",
-                "--background-index",
-                "--query-driver",
-                "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
-            }
-        end
-})
-```
-
-If you're using `clangd`, you have to pass `--query-driver=/path/to/cross-compiler` as an argument. I use Conquer of Completion, better known simply as CoC. In my CoC **local** config file (you reach
-this file with `:CocLocalConfig`) within vim.  The file should look like:
+If you're using `clangd`, you have to pass `--query-driver=/path/to/cross-compiler` as an argument. If you use CoC, your config file (you generate
+this with `:CocLocalConfig`) should look like:
 
 ```
 {
@@ -84,8 +71,24 @@ my full `NakOS/.vim/coc-settings.json`, looks like:
 
   "suggest.noselect": true
 }
-```
 
+### Neovim
+
+```
+If you have **Neovim 0.9.0 or above**, you can have an `.nvim.lua` file with the following
+
+```
+require("lspconfig").clangd.setup({
+    on_new_config = function(config)
+            config.cmd = {
+                "clangd",
+                "--background-index",
+                "--query-driver",
+                "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
+            }
+        end
+})
+```
 If you are using NeoVim and `lsp_config`, you could add the following to your `init.lua`. Replace `project_root` with your project directory 
 and replace 
 
