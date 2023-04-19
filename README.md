@@ -37,6 +37,21 @@ cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -GNi
 
 ### LSP Setup
 
+If you have **Neovim 0.9.0 or above**, you can have an `.nvim.lua` file with the following
+
+```
+require("lspconfig").clangd.setup({
+    on_new_config = function(config)
+            config.cmd = {
+                "clangd",
+                "--background-index",
+                "--query-driver",
+                "/home/jared/Projects/CPP/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
+            }
+        end
+})
+```
+
 If you're using `clangd`, you have to pass `--query-driver=/path/to/cross-compiler` as an argument. I use Conquer of Completion, better known simply as CoC. In my CoC **local** config file (you reach
 this file with `:CocLocalConfig`) within vim.  The file should look like:
 
