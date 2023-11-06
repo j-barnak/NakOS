@@ -4,5 +4,4 @@
 void kernel_main()
 {
     auto graphics = Graphics {};
-    graphics.init_terminal();
 }
