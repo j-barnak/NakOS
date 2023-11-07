@@ -30,6 +30,3 @@ ScreenChar Graphics::get_character(std::uint8_t character)
 {
     return get_character(character, {});
 }
-
-void Graphics::write(const char *string)
-{}
