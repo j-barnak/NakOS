@@ -1,50 +1,38 @@
 #pragma once
 
-#include "Array.hpp"
-#include "GraphicTypes.hpp"
+#include "Graphics/Types.hpp"
+#include <cstdint>
 
-// TODO: Implement the following functions:
-//         uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg)
-//         uint16_t vga_entry(unsigned char uc, uint8_t color)
-//         size_t strlen(const char* str)
-//         void terminal_setcolor(uint8_t color)
-//         void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
-//         void terminal_putchar(char c)
-//         void terminal_write(const char* data, size_t size)
-//         void terminal_writestring(const char* data)
-
-// TODO: Adding Support for Newlines to Terminal Driver
-//         The current terminal driver does not handle newlines. The VGA
-//         text mode font stores another character at the location, since
-//         newlines are never meant to be actually rendered: they are
-//         logical entities. Rather, in terminal_putchar
-//         check if c == '\n' and increment terminal_row and reset
-//         terminal_column.
-
-// TODO: Implementing Terminal Scrolling
-//         In case the terminal is filled up, it will just go back to the
-//         top of the screen. This is unacceptable for normal use. Instead,
-//         it should move all rows up one row and discard the upper most,
-//         and leave a blank row at the bottom ready to be filled up with
-//         characters. Implement this.
+// TODO: Implement:
+//         1. a cursor position -- denotes the last [x, y] position we just wrote to
+//         2. writes that begin at the last cursor position
+//         3. New line awareness
+//         4. if writes beging at a (line > m_height), then we clear the first line, shift everything up, and then write
+//            a. probably want a shift() helper function
 
 class Graphics
 {
   private:
     static constexpr std::uint8_t m_height = 25;
     static constexpr std::uint8_t m_width = 80;
+    std::size_t m_line_number = 0;
+    std::size_t m_last_pos[25][80] = {};
 
-    std::size_t m_column_position;
-    std::size_t m_row_position;
+    std::uint16_t *m_terminal_buffer;
 
-    using TerminalBuffer = Array<ScreenChar, m_height * m_width>;
-    TerminalBuffer *m_buffer;
+    Color m_background;
+    Color m_foreground;
 
-    void init_terminal();
+    void initialize_terminal();
+    void initialize_terminal(Color background, Color foreground);
 
   public:
     Graphics();
-    ScreenChar get_character(std::uint8_t character, ColorCode color);
-    ScreenChar get_character(std::uint8_t character);
-    void write(Array<ScreenChar, 80> character);
+    Graphics(Color background, Color foreground);
+
+    std::uint16_t to_screen_char(Color background, Color foreground, unsigned char ascii);
+    std::uint16_t to_screen_char(ScreenCharacter screen_character);
+
+    void write_string(unsigned char str[], std::size_t size);
+    void write_string(unsigned char str[]);
 };

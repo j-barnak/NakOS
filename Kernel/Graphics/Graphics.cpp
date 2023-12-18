@@ -1,32 +1,78 @@
-#include "Graphics.hpp"
-#include "GraphicTypes.hpp"
+#include "Graphics/Graphics.hpp"
+#include "Graphics/Types.hpp"
 #include <bit>
+#include <cstddef>
+#include <cstdint>
 
-Graphics::Graphics() : m_column_position { 0 }, m_buffer { std::bit_cast<TerminalBuffer *>(0xb8000) }
+Graphics::Graphics() : m_terminal_buffer { std::bit_cast<std::uint16_t *>(0xb8000) }
 {
-    init_terminal();
+    initialize_terminal();
 }
 
-void Graphics::init_terminal()
+Graphics::Graphics(Color background, Color foreground) : m_terminal_buffer { std::bit_cast<std::uint16_t *>(0xb8000) }, m_background { background }, m_foreground { foreground }
 {
-    auto initial_value = ScreenChar { static_cast<std::uint8_t>(' '), ColorCode { VGA_Color::White, VGA_Color::Black } };
-    initial_value.disable_blinking();
+    initialize_terminal(background, foreground);
+}
+
+std::uint16_t Graphics::to_screen_char(Color background, Color foreground, unsigned char ascii)
+{
+    auto sc = ScreenCharacter { background, foreground, ascii };
+    auto val = to_screen_char(sc);
+    return val;
+}
+
+std::uint16_t Graphics::to_screen_char(ScreenCharacter screen_character)
+{
+    auto foreground = screen_character.foreground;
+    auto background = screen_character.background;
+    auto ascii = screen_character.ascii;
+
+    std::uint16_t color = static_cast<std::uint16_t>(foreground) | static_cast<std::uint16_t>(background) << 4;
+    std::uint16_t character = static_cast<std::uint16_t>(ascii) | color << 8;
+
+    return character;
+}
+
+void Graphics::initialize_terminal()
+{
+    auto screen_character = to_screen_char(ScreenCharacter { .background = Color::White, .foreground = Color::Black, .ascii = ' ' });
 
     for (std::size_t y = 0; y < m_height; ++y) {
         for (std::size_t x = 0; x < m_width; ++x) {
-            auto index = x * m_height + y;
-            (*m_buffer)[index] = initial_value;
+            m_terminal_buffer[x * m_height + y] = screen_character;
         }
-        ++m_column_position;
     }
 }
 
-ScreenChar Graphics::get_character(std::uint8_t character, ColorCode color)
+void Graphics::initialize_terminal(Color background, Color foreground)
 {
-    return ScreenChar { character, color };
+    auto screen_character = to_screen_char(ScreenCharacter { .background = background, .foreground = foreground, .ascii = ' ' });
+
+    for (std::size_t y = 0; y < m_height; ++y) {
+        for (std::size_t x = 0; x < m_width; ++x) {
+            m_terminal_buffer[x * m_height + y] = screen_character;
+        }
+    }
 }
 
-ScreenChar Graphics::get_character(std::uint8_t character)
+void Graphics::write_string(unsigned char string[], std::size_t size)
 {
-    return get_character(character, {});
+    for (std::size_t i = 0; i < size; ++i) {
+        auto sc = ScreenCharacter { Color::White, Color::Black, string[i] };
+        auto write = to_screen_char(sc);
+        m_terminal_buffer[i] = write;
+    }
+}
+
+void Graphics::write_string(unsigned char string[])
+{
+    std::size_t size = 0;
+    unsigned char terminator = string[0];
+
+    while (terminator != '\0') {
+        terminator = string[size];
+        size++;
+    }
+
+    write_string(string, size);
 }
