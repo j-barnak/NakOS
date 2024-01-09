@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Graphics/Types.hpp"
 #include <cstdint>
 
 // TODO: Implement:
@@ -10,7 +9,37 @@
 //         4. if writes beging at a (line > m_height), then we clear the first line, shift everything up, and then write
 //            a. probably want a shift() helper function
 
-class Graphics
+namespace Graphics {
+
+enum class Color : std::uint16_t {
+    Black = 0,
+    Blue = 1,
+    Green = 2,
+    Cyan = 3,
+    Red = 4,
+    Magenta = 5,
+    Brown = 6,
+    LightGray = 7,
+    DarkGray = 8,
+    LightBlue = 9,
+    LightGreen = 10,
+    LightCyan = 11,
+    LightRed = 12,
+    Pink = 13,
+    Yellow = 14,
+    White = 15,
+};
+
+struct ScreenCharacter
+{
+    Color background;
+    Color foreground;
+    unsigned char ascii;
+
+    std::uint16_t to_16() const;
+};
+
+class Terminal
 {
   private:
     static constexpr std::uint8_t m_height = 25;
@@ -18,7 +47,7 @@ class Graphics
     std::size_t m_line_number = 0;
     std::size_t m_last_pos[25][80] = {};
 
-    std::uint16_t *m_terminal_buffer;
+    std::uint16_t *buffer;
 
     Color m_background;
     Color m_foreground;
@@ -27,12 +56,11 @@ class Graphics
     void initialize_terminal(Color background, Color foreground);
 
   public:
-    Graphics();
-    Graphics(Color background, Color foreground);
+    Terminal();
+    Terminal(Color background, Color foreground);
 
     std::uint16_t to_screen_char(Color background, Color foreground, unsigned char ascii);
     std::uint16_t to_screen_char(ScreenCharacter screen_character);
-
-    void write_string(unsigned char str[], std::size_t size);
-    void write_string(unsigned char str[]);
 };
+
+}// namespace Graphics

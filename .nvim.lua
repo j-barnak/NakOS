@@ -3,8 +3,7 @@ require("lspconfig").clangd.setup({
 		config.cmd = {
 			"clangd",
 			"--background-index",
-			"--query-driver",
-			"/home/jared/Projects/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
+			"--query-driver=/home/jared/Projects/NakOS/Toolchain/opt/cross/bin/i686-elf-g++",
 		}
 	end,
 })

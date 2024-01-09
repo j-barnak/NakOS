@@ -1,27 +1,26 @@
 #include "Graphics/Graphics.hpp"
-#include "Graphics/Types.hpp"
 #include <bit>
 #include <cstddef>
 #include <cstdint>
 
-Graphics::Graphics() : m_terminal_buffer { std::bit_cast<std::uint16_t *>(0xb8000) }
+Graphics::Terminal::Terminal() : buffer { std::bit_cast<std::uint16_t *>(0xb8000) }
 {
     initialize_terminal();
 }
 
-Graphics::Graphics(Color background, Color foreground) : m_terminal_buffer { std::bit_cast<std::uint16_t *>(0xb8000) }, m_background { background }, m_foreground { foreground }
+Graphics::Terminal::Terminal(Color background, Color foreground) : buffer { std::bit_cast<std::uint16_t *>(0xb8000) }, m_background { background }, m_foreground { foreground }
 {
     initialize_terminal(background, foreground);
 }
 
-std::uint16_t Graphics::to_screen_char(Color background, Color foreground, unsigned char ascii)
+std::uint16_t Graphics::Terminal::to_screen_char(Color background, Color foreground, unsigned char ascii)
 {
     auto sc = ScreenCharacter { background, foreground, ascii };
     auto val = to_screen_char(sc);
     return val;
 }
 
-std::uint16_t Graphics::to_screen_char(ScreenCharacter screen_character)
+std::uint16_t Graphics::Terminal::to_screen_char(ScreenCharacter screen_character)
 {
     auto foreground = screen_character.foreground;
     auto background = screen_character.background;
@@ -33,46 +32,33 @@ std::uint16_t Graphics::to_screen_char(ScreenCharacter screen_character)
     return character;
 }
 
-void Graphics::initialize_terminal()
+void Graphics::Terminal::initialize_terminal()
 {
     auto screen_character = to_screen_char(ScreenCharacter { .background = Color::White, .foreground = Color::Black, .ascii = ' ' });
 
     for (std::size_t y = 0; y < m_height; ++y) {
         for (std::size_t x = 0; x < m_width; ++x) {
-            m_terminal_buffer[x * m_height + y] = screen_character;
+            buffer[x * m_height + y] = screen_character;
         }
     }
 }
 
-void Graphics::initialize_terminal(Color background, Color foreground)
+void Graphics::Terminal::initialize_terminal(Color background, Color foreground)
 {
     auto screen_character = to_screen_char(ScreenCharacter { .background = background, .foreground = foreground, .ascii = ' ' });
 
     for (std::size_t y = 0; y < m_height; ++y) {
         for (std::size_t x = 0; x < m_width; ++x) {
-            m_terminal_buffer[x * m_height + y] = screen_character;
+            buffer[x * m_height + y] = screen_character;
         }
     }
 }
 
-void Graphics::write_string(unsigned char string[], std::size_t size)
+std::uint16_t Graphics::ScreenCharacter::to_16() const
 {
-    for (std::size_t i = 0; i < size; ++i) {
-        auto sc = ScreenCharacter { Color::White, Color::Black, string[i] };
-        auto write = to_screen_char(sc);
-        m_terminal_buffer[i] = write;
-    }
-}
 
-void Graphics::write_string(unsigned char string[])
-{
-    std::size_t size = 0;
-    unsigned char terminator = string[0];
+    std::uint16_t color = static_cast<std::uint16_t>(foreground) | static_cast<std::uint16_t>(background) << 4;
+    std::uint16_t character = static_cast<std::uint16_t>(ascii) | color << 8;
 
-    while (terminator != '\0') {
-        terminator = string[size];
-        size++;
-    }
-
-    write_string(string, size);
+    return character;
 }

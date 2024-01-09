@@ -127,7 +127,7 @@ require("lspconfig").clangd.setup({
             }
         end
     end,
-})`
+})
 ```
 Which accomplishes the same thing
 
