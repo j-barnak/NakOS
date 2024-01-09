@@ -3,7 +3,7 @@
 
 void kernel_main()
 {
-    auto graphics = Terminal {};
-    unsigned char str[] = { "string" };
-    graphics.write_string(str);
+    auto graphics = Graphics::Terminal {};
+    char str[] = "frank0";
+    graphics.write_string(str, 0, 0);
 }
