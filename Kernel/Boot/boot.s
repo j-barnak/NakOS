@@ -4,6 +4,10 @@
 .set MAGIC,    0x1BADB002    
 .set CHECKSUM, -(MAGIC + FLAGS)
 
+gdtr:
+    .long 0 # Limit
+    .long 0 # Base
+    
 .section .multiboot
 .align 4
 .long MAGIC
@@ -19,6 +23,7 @@ stack_top:
 .global _start
 .type _start, @function
 
+    
 _start:
 	mov $stack_top, %esp
 	# This is a good place to initialize crucial processor state before the
@@ -36,3 +41,5 @@ _start:
 	jmp 1b
 
 .size _start, . - _start
+
+# Sets up GDTR

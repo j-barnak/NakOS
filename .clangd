@@ -1,2 +1,2 @@
 Diagnostics:
-    Suppress: err_type_unsupported
+    Suppress: [err_type_unsupported, pragma-pack]
