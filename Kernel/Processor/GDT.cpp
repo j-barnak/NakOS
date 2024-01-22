@@ -1,4 +1,4 @@
-#include "CPU/CPU.hpp"
+#include "Processor/GDT.hpp"
 
 void Processor::GDT::load_gtdr(GDTR gdt_register = { .base = 0, .limit = 0 })
 {
