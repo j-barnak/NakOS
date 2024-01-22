@@ -2,8 +2,7 @@
 
 #include <cstdint>
 
-#pragma pack(push, 1)
-class Descriptor
+class [[gnu::packed]] Descriptor
 {
   public:
     std::uint8_t get_granularity() const;
@@ -12,4 +11,3 @@ class Descriptor
     std::uint32_t m_descriptor_with_permissions = 0x0;
     std::uint32_t m_descriptor_with_base_limit = 0x0;
 };
-#pragma pack(pop)

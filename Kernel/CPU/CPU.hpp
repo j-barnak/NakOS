@@ -2,21 +2,21 @@
 
 #include <cstdint>
 
-#pragma pack(push, 1)
-struct GDTR
+namespace Processor {
+
+struct [[gnu::packed]] GDTR
 {
     std::uint16_t base;
     std::uint32_t limit;
 };
 
-#pragma pack(pop)
-
-#pragma pack(push, 1)
-class CPU
+class GDT
 {
   public:
     static void load_gtdr(GDTR gdt_register);
 
   private:
+    GDTR m_gdtr;
 };
-#pragma pack(pop)
+
+}// namespace Processor
