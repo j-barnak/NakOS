@@ -4,10 +4,11 @@
 
 void kernel_main()
 {
-    auto gdtr = Processor::GDTR {};
-    auto gdt = Processor::GDT {};
-    gdt.load_gtdr(gdtr);
+    auto gdtr = Processor::GDTR { .base = 0, .limit = 0xFFFF };
+    auto gdt = Processor::GDT { gdtr };
+    gdt.load_gtdr();
+
     auto graphics = Graphics::Terminal {};
-    char str[] = "frank0";
+    char str[] = "Loaded GDT";
     graphics.write_string(str, 0, 0);
 }

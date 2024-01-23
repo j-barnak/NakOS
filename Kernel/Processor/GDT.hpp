@@ -13,7 +13,8 @@ struct [[gnu::packed]] GDTR
 class GDT
 {
   public:
-    void load_gtdr(GDTR gdt_register);
+    GDT(const GDTR &gdtr);
+    void load_gtdr();
 
   private:
     GDTR m_gdtr;

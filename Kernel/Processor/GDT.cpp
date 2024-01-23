@@ -1,6 +1,11 @@
 #include "Processor/GDT.hpp"
 
-void Processor::GDT::load_gtdr(GDTR gdt_register = { .base = 0, .limit = 0 })
+Processor::GDT::GDT(const Processor::GDTR &gdtr) : m_gdtr { gdtr }
 {
-    asm volatile("lgdtl %0" ::"m"(gdt_register));
+    load_gtdr();
+}
+
+void Processor::GDT::load_gtdr()
+{
+    asm volatile("lgdtl %0" ::"m"(m_gdtr));
 }
