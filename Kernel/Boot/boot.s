@@ -34,6 +34,7 @@ _start:
 	# yet. The GDT should be loaded here. Paging should be enabled here.
 	# C++ features such as global constructors and exceptions will require
 	# runtime support to work as well.
+    call gdt_init
 	call kernel_main
 
 	cli

@@ -9,9 +9,10 @@ void kernel_main()
     auto gdtr = Processor::GDTR { .limit = 0, .base = std::bit_cast<void *>(0xFFFF) };
     auto gdt = Processor::GDT { gdtr };
     gdt.load_gtdr();
-    auto d = Descriptor {};
-    gdt.push_descriptor_entry(d);
-    gdt.push_descriptor_entry(d);
+
+    auto null_descriptor = Processor::Descriptor { 0x0, 0x0 };
+
+    gdt.push_descriptor_entry(null_descriptor);
 
     auto graphics = Graphics::Terminal {};
     char str[] = "Loaded GDT";
