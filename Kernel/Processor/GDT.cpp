@@ -18,5 +18,4 @@ void Processor::GDT::load_gtdr()
 void Processor::GDT::push_descriptor_entry(const Descriptor &descriptor)
 {
     m_descriptor_entries[m_size] = descriptor;
-    ++m_size;
 }

@@ -1,12 +1,13 @@
 #pragma once
 
 #include <cstdint>
-#include <variant>
 
 namespace Processor {
 
+// NOTE: opted to use #pragma pack (push, 1) because GCC doesn't like mixing
 // Section 3.4.5 @ "Segment Descriptors" of the Intel Manual
-struct [[gnu::packed]] Descriptor
+#pragma pack(push, 8)
+struct Descriptor
 {
     std::uint16_t segment_limit_low;
     std::uint16_t base_address_low;
@@ -21,5 +22,6 @@ struct [[gnu::packed]] Descriptor
     std::uint8_t granularity : 1;
     std::uint8_t base_address_high;
 };
+#pragma pack(pop)
 
 }// namespace Processor

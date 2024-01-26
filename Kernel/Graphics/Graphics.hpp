@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Array.hpp>
-#include <cstddef>
 #include <cstdint>
 
 namespace Graphics {

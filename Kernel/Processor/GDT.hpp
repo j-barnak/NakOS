@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Array.hpp"
+#include "Lib/Array.hpp"
 #include "Processor/Descriptor.hpp"
 #include <cstddef>
 #include <cstdint>
@@ -13,16 +15,18 @@ struct [[gnu::packed]] GDTR
     void *base;
 };
 
+template<std::uint8_t Size>
 class GDT
 {
   public:
     GDT(const GDTR &gdtr);
     void load_gtdr();
-    void push_descriptor_entry(const Descriptor &Descriptor);
+    void load_descriptor_entry(const Descriptor &Descriptor, std::ptrdiff_t index);
 
   private:
     GDTR m_gdtr;
-    Descriptor *m_descriptor_entries;
+
+    Lib::Array<Processor::Descriptor, 8> m_gdt;
     std::size_t m_size;
 };
 
