@@ -4,10 +4,6 @@
 .set MAGIC,    0x1BADB002    
 .set CHECKSUM, -(MAGIC + FLAGS)
 
-gdtr:
-    .long 0 # Limit
-    .long 0 # Base
-    
 .section .multiboot
 .align 4
 .long MAGIC
@@ -34,6 +30,7 @@ _start:
 	# yet. The GDT should be loaded here. Paging should be enabled here.
 	# C++ features such as global constructors and exceptions will require
 	# runtime support to work as well.
+    call gdb_init
 	call kernel_main
 
 	cli
