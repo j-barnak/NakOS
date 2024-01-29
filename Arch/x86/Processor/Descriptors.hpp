@@ -2,7 +2,6 @@
 
 #include "Array.hpp"
 #include "Lib/Array.hpp"
-#include "Processor/Descriptor.hpp"
 #include <cstddef>
 #include <cstdint>
 
@@ -19,13 +18,15 @@ template<std::uint8_t Size>
 class Descriptors
 {
   public:
-    Descriptors(const GDTR &gdtr);
-    void load_descriptor_entry(Node entry, std::ptrdiff_t index);
+    // Forward Declaration
+    struct Entry;
 
-  private:
+    Descriptors(const GDTR &gdtr);
+    void load_descriptor_entry(const Entry &entry, std::ptrdiff_t index);
+
     // clang-format off
     #pragma pack(push, 8)
-    struct Node
+    struct Entry
     {
         std::uint16_t segment_limit_low;
         std::uint16_t base_address_low;
@@ -43,34 +44,35 @@ class Descriptors
     #pragma pack(pop)
     // clang-format on
 
+
+  private:
     GDTR m_gdtr;
-    Lib::Array<Node, 8> *m_gdt;
+    Lib::Array<Entry, Size> *m_gdt;
 
     void load_gtdr();
 };
 
 template<std::uint8_t Size>
-Processor::Descriptors<Size>::Descriptors(const Processor::GDTR &gdtr) : m_gdtr { gdtr }
+Descriptors<Size>::Descriptors(const GDTR &gdtr) : m_gdtr { gdtr }
 {
     load_gtdr();
-    m_gdt = static_cast<Processor::Descriptors<Size>::Node *>(m_gdtr.base);
+    // Processor::Descriptors<8>::Entry*' to 'Lib::Array<Processor::Descriptors<8>::Entry, 8>*' in assignment
+    m_gdt = static_cast<Lib::Array<Entry, Size> *>(m_gdtr.base);
 }
 
 template<std::uint8_t Size>
-void Processor::Descriptors<Size>::load_gtdr()
+void Descriptors<Size>::load_gtdr()
 {
     asm volatile(
         "cli;"
-        "lgdtl %0;"
-        "sti;" ::"m"(m_gdtr));
+        "lgdtl %0;" ::"m"(m_gdtr));
 }
 
-// template<std::uint8_t Size>
-// void Processor::Descriptors<Size>::load_descriptor_entry(const Processor::Descriptors<Size> Node &entry, std::ptrdiff_t index)
-// {}
 template<std::uint8_t Size>
-void Descriptors<Size>::load_descriptor_entry(Descriptors<Size>::Node node, std::ptrdiff_t t)
-{}
+void Descriptors<Size>::load_descriptor_entry(const Descriptors<Size>::Entry &entry, std::ptrdiff_t index)
+{
+    *m_gdt[index] = entry;
+}
 
 
 }// namespace Processor
