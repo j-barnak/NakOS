@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Array.hpp"
 #include "Lib/Array.hpp"
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 
 namespace Processor {
 
-// TODO: The base and limit are messed up. Switch them
-struct [[gnu::packed]] GDTR
+// TODO: The base and limit may be switched up. Double check this
+struct [[gnu::packed]] DescriptorPointer
 {
     std::uint16_t limit;
     void *base;
@@ -21,12 +21,11 @@ class Descriptors
     // Forward Declaration
     struct Entry;
 
-    Descriptors(const GDTR &gdtr);
+    Descriptors();
     void load_descriptor_entry(const Entry &entry, std::ptrdiff_t index);
+    void load_gtdr();
 
-    // clang-format off
-    #pragma pack(push, 8)
-    struct Entry
+    struct [[gnu::packed]] Entry
     {
         std::uint16_t segment_limit_low;
         std::uint16_t base_address_low;
@@ -41,38 +40,28 @@ class Descriptors
         std::uint8_t granularity : 1;
         std::uint8_t base_address_high;
     };
-    #pragma pack(pop)
-    // clang-format on
-
 
   private:
-    GDTR m_gdtr;
-    Lib::Array<Entry, Size> *m_gdt;
-
-    void load_gtdr();
+    DescriptorPointer m_entries_pointer;
+    Entry m_entries[Size];
 };
 
 template<std::uint8_t Size>
-Descriptors<Size>::Descriptors(const GDTR &gdtr) : m_gdtr { gdtr }
-{
-    load_gtdr();
-    // Processor::Descriptors<8>::Entry*' to 'Lib::Array<Processor::Descriptors<8>::Entry, 8>*' in assignment
-    m_gdt = static_cast<Lib::Array<Entry, Size> *>(m_gdtr.base);
-}
+Descriptors<Size>::Descriptors() : m_entries_pointer { .limit = Size, .base = &m_entries }
+{}
 
 template<std::uint8_t Size>
 void Descriptors<Size>::load_gtdr()
 {
     asm volatile(
         "cli;"
-        "lgdtl %0;" ::"m"(m_gdtr));
+        "lgdtl %0;" ::"m"(m_entries_pointer));
 }
 
 template<std::uint8_t Size>
 void Descriptors<Size>::load_descriptor_entry(const Descriptors<Size>::Entry &entry, std::ptrdiff_t index)
 {
-    *m_gdt[index] = entry;
+    m_entries[index] = entry;
 }
-
 
 }// namespace Processor
