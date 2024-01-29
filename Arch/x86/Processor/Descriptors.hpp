@@ -7,7 +7,6 @@
 
 namespace Processor {
 
-// TODO: The base and limit may be switched up. Double check this
 struct [[gnu::packed]] DescriptorPointer
 {
     std::uint16_t limit;
@@ -25,7 +24,9 @@ class Descriptors
     void load_descriptor_entry(const Entry &entry, std::ptrdiff_t index);
     void load_gtdr();
 
-    struct [[gnu::packed]] Entry
+    // clang-format off
+    #pragma pack(push, 1)
+    struct Entry
     {
         std::uint16_t segment_limit_low;
         std::uint16_t base_address_low;
@@ -40,27 +41,32 @@ class Descriptors
         std::uint8_t granularity : 1;
         std::uint8_t base_address_high;
     };
+    // clang-format on
+#pragma pack(pop)
 
   private:
-    DescriptorPointer m_entries_pointer;
-    Entry m_entries[Size];
+    Descriptors<Size>::Entry m_entries[Size];
 };
 
 template<std::uint8_t Size>
-Descriptors<Size>::Descriptors() : m_entries_pointer { .limit = Size, .base = &m_entries }
+Descriptors<Size>::Descriptors()
 {}
 
 template<std::uint8_t Size>
 void Descriptors<Size>::load_gtdr()
 {
+    auto gdtr = DescriptorPointer { .limit = Size, .base = &m_entries };
     asm volatile(
         "cli;"
-        "lgdtl %0;" ::"m"(m_entries_pointer));
+        "lgdtl %0;" ::"m"(gdtr));
 }
 
 template<std::uint8_t Size>
 void Descriptors<Size>::load_descriptor_entry(const Descriptors<Size>::Entry &entry, std::ptrdiff_t index)
 {
+    [[unlikely]] if (index >= Size) {
+        return;
+    }
     m_entries[index] = entry;
 }
 
