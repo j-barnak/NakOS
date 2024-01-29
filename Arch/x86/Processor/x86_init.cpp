@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Processor/Descriptor.hpp"
 #include "Processor/GDT.hpp"
 

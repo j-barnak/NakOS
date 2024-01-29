@@ -1,5 +1,4 @@
 set(KERNEL_SOURCE
-    ${CMAKE_SOURCE_DIR}/Kernel/Boot/boot.s
     ${CMAKE_SOURCE_DIR}/Kernel/kernel.cpp
 )
 

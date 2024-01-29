@@ -1,0 +1,5 @@
+set(PROCESSOR_SOURCE
+    ${CMAKE_CURRENT_SOURCE_DIR}/x86_init.cpp
+)
+
+target_sources(nak PRIVATE ${PROCESSOR_SOURCE})

@@ -33,6 +33,7 @@ case $PWD/ in
     # Configure, build, and install the GCC cross-compiler
     cd ..
     git clone git://gcc.gnu.org/git/gcc.git gcc
+    git checkout releases/gcc-13
     mkdir build-gcc
     cd build-gcc
     ../gcc/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --disable-hosted-libstdcxx

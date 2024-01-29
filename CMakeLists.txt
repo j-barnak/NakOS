@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.20)
 project(NakOS CXX ASM)
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/Kernel/Boot/loader.ld)
+# Detect Architecture, Choose linker script based on architecture
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/Arch/x86/Boot/loader.ld)
 
 add_executable(nak)
 
+add_subdirectory(Arch/x86)
 add_subdirectory(Kernel)
 add_subdirectory(Kernel/Graphics)
-add_subdirectory(Kernel/Processor)
-add_subdirectory(Utilities)
+add_subdirectory(Lib)
 
 target_include_directories(nak PUBLIC ${CMAKE_SOURCE_DIR})
 

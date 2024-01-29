@@ -1,5 +1,8 @@
 #!/usr/bin/sh
 
+rm -rf build
+cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_TOOLCHAIN_FILE=/home/jared/Projects/NakOS/Toolchain/os-dev-toolchain.cmake -GNinja .
+ln -s ./build/compile_commands.json .
 cmake --build build
 
 if ! test -f build/nak; then

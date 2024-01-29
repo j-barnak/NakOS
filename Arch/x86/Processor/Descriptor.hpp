@@ -7,7 +7,7 @@ namespace Processor {
 // NOTE: opted to use #pragma pack (push, 1) because GCC doesn't like mixing
 // Section 3.4.5 @ "Segment Descriptors" of the Intel Manual
 #pragma pack(push, 8)
-struct Descriptor
+struct Node
 {
     std::uint16_t segment_limit_low;
     std::uint16_t base_address_low;
