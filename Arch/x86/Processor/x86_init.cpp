@@ -6,17 +6,10 @@
 //       storage, the descriptors would deallocate and important structures, such as the IDT and TSS.
 auto gdt = Processor::Descriptors<8> {};
 
-// For pushing system registers onto the stack and inspecting their values.
+// Places
 static void debug_registers(auto reg)
 {
-    decltype(reg) temp;
-
-    // clang-format off
-    asm volatile(
-        "push %0;"
-        "pop %1;" ::"m"(reg), "m"(temp)
-    );
-    // clang-format on
+    asm volatile("mov %0, %%eax;" ::"m"(reg));
 }
 
 static void load_gdt_entries()
@@ -27,18 +20,18 @@ static void load_gdt_entries()
     auto entry_0 = Processor::Descriptors<size>::Entry {};
     // clang-format off
     auto entry_1 = Processor::Descriptors<size>::Entry {
-      .segment_limit_low = 11,  
-      .base_address_low = 0,
-      .base_address_mid = 0,
-      .type = 0,
-      .system = 0,
-      .descriptor_privilege_level = 0,
-      .present = 1,
-      .segment_limit_high = 0,
-      . available = 1,
-      .d_or_b = 0,
-      .granularity = 0,
-      .base_address_high = 22, 
+      .segment_limit_low = 0xFFFF,  
+      .base_address_low = 0xFFFF,
+      .base_address_mid = 0xFF,
+      .type = 0xF,
+      .system = 0x1,
+      .descriptor_privilege_level = 0x0,
+      .present = 0x1,
+      .segment_limit_high = 0x4,
+      . available = 0x1,
+      .d_or_b = 0x1,
+      .granularity = 0x1,
+      .base_address_high = 0xFF, 
     };
     // clang-format on
     debug_registers(entry_1);
