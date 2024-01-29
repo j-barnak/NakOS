@@ -3,7 +3,7 @@
 #include <cstdint>
 
 // NOTE: Should be global because it needs to persist throughout the lifetime of the kernel. If it's in automatic
-//       storage, the descriptors would deallocate and important structures, such as the IDT and TSS.
+//       storage, the descriptors would deallocate important structures, such as the IDT and TSS.
 auto gdt = Processor::Descriptors<8> {};
 
 static void load_gdt_entries()
