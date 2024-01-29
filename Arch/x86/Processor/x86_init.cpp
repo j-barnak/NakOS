@@ -1,7 +1,6 @@
-#include "Processor/Descriptor.hpp"
-#include "Processor/GDT.hpp"
+#include "Processor/Descriptors.hpp"
 
-auto gdt = Processor::GDT<8> { Processor::GDTR {} };
+auto gdt = Processor::Descriptors<8> { Processor::GDTR {} };
 
 static void load_desriptors()
 {

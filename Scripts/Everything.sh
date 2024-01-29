@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 rm -rf build
-cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_TOOLCHAIN_FILE=/home/jared/Projects/NakOS/Toolchain/os-dev-toolchain.cmake -GNinja .
+cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=/home/jared/Projects/NakOS/Toolchain/os-dev-toolchain.cmake
 ln -s ./build/compile_commands.json .
 cmake --build build
 
