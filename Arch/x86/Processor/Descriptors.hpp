@@ -22,6 +22,7 @@ class Descriptors
     // clang-format on
 
     // clang-format off
+    // NOTE: We have to use #pragma pack because gcc doesn't like when we use [[gnu::packed]]
     #pragma pack(push, 1)
     struct Entry
     {
@@ -56,15 +57,16 @@ template<std::uint8_t Size>
 void Descriptors<Size>::load_gtdr()
 {
     auto gdtr = Descriptors<Size>::Pointer { .limit = Size, .base = &m_entries };
+
     asm volatile(
         "cli;"
-        "lgdtl %0;" ::"m"(gdtr));
+        "lgdt %0;" ::"m"(gdtr));
 }
 
 template<std::uint8_t Size>
 void Descriptors<Size>::load_descriptor_entry(const Descriptors<Size>::Entry &entry, std::ptrdiff_t index)
 {
-    [[unlikely]] if (index >= Size) {
+    [[unlikely]] if (index >= Size || index < 0) {
         return;
     }
 

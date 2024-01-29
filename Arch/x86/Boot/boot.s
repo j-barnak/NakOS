@@ -31,7 +31,7 @@ _start:
 	# C++ features such as global constructors and exceptions will require
 	# runtime support to work as well.
     call gdt_init
-	call kernel_main
+    call kernel_main
 
 	cli
 1:	hlt
