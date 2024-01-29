@@ -21,8 +21,12 @@ class Descriptors
     struct Entry;
 
     Descriptors();
+
     void load_descriptor_entry(const Entry &entry, std::ptrdiff_t index);
     void load_gtdr();
+    // clang-format off
+    constexpr std::uint8_t array_size() const { return Size; }
+    // clang-format on
 
     // clang-format off
     #pragma pack(push, 1)
@@ -41,8 +45,8 @@ class Descriptors
         std::uint8_t granularity : 1;
         std::uint8_t base_address_high;
     };
+    #pragma pack(pop)
     // clang-format on
-#pragma pack(pop)
 
   private:
     Descriptors<Size>::Entry m_entries[Size];
