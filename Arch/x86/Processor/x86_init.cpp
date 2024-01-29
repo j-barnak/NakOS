@@ -1,5 +1,6 @@
 #include "Processor/x86_init.hpp"
 #include "Processor/Descriptors.hpp"
+#include <cstdint>
 
 auto gdt = Processor::Descriptors<8> {};
 
@@ -30,5 +31,10 @@ static void load_gdt_entries()
 void gdt_init()
 {
     gdt.load_gtdr();
+    // NOTE: This is debugging information. To check if the GDT is loaded in the right place, uncomment the line of
+    //       assembly and check what's on top of the stack with:
+    //       (gdb) x/1xg $esp
+    //
+    //       asm volatile("sgdt 0x0(%esp);");
     load_gdt_entries();
 }
