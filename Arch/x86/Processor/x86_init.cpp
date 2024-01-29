@@ -2,14 +2,32 @@
 #include "Processor/Descriptors.hpp"
 #include <cstdint>
 
+// NOTE: Should be global because it needs to persist throughout the lifetime of the kernel. If it's in automatic
+//       storage, the descriptors would deallocate and important structures, such as the IDT and TSS.
 auto gdt = Processor::Descriptors<8> {};
+
+// For pushing system registers onto the stack and inspecting their values.
+static void debug_registers(auto reg)
+{
+    decltype(reg) temp;
+
+    // clang-format off
+    asm volatile(
+        "push %0;"
+        "pop %1;" ::"m"(reg), "m"(temp)
+    );
+    // clang-format on
+}
 
 static void load_gdt_entries()
 {
-    auto entry_0 = Processor::Descriptors<gdt.array_size()>::Entry {};
+    constexpr auto size = gdt.amount_of_entries();
+
+    // Null Entry
+    auto entry_0 = Processor::Descriptors<size>::Entry {};
     // clang-format off
-    auto entry_1 = Processor::Descriptors<gdt.array_size()>::Entry {
-      .segment_limit_low = 0,  
+    auto entry_1 = Processor::Descriptors<size>::Entry {
+      .segment_limit_low = 11,  
       .base_address_low = 0,
       .base_address_mid = 0,
       .type = 0,
@@ -20,9 +38,10 @@ static void load_gdt_entries()
       . available = 1,
       .d_or_b = 0,
       .granularity = 0,
-      .base_address_high = 0
+      .base_address_high = 22, 
     };
     // clang-format on
+    debug_registers(entry_1);
 
     gdt.load_descriptor_entry(entry_0, 0);
     gdt.load_descriptor_entry(entry_1, 1);

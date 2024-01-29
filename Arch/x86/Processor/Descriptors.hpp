@@ -1,31 +1,24 @@
 #pragma once
 
-#include "Lib/Array.hpp"
-#include <cstddef>
 #include <cstdint>
 #include <memory>
 
 namespace Processor {
 
-struct [[gnu::packed]] DescriptorPointer
-{
-    std::uint16_t limit;
-    void *base;
-};
-
 template<std::uint8_t Size>
 class Descriptors
 {
   public:
-    // Forward Declaration
-    struct Entry;
+    // Forward Declarations
+    struct [[gnu::packed]] Entry;
+    struct [[gnu::packed]] Pointer;
 
-    Descriptors();
+    Descriptors() = default;
 
     void load_descriptor_entry(const Entry &entry, std::ptrdiff_t index);
     void load_gtdr();
     // clang-format off
-    constexpr std::uint8_t array_size() const { return Size; }
+    constexpr std::uint8_t amount_of_entries() const { return Size; }
     // clang-format on
 
     // clang-format off
@@ -48,18 +41,21 @@ class Descriptors
     #pragma pack(pop)
     // clang-format on
 
+    struct [[gnu::packed]] Pointer
+    {
+        std::uint16_t limit;
+        void *base;
+    };
+
+
   private:
     Descriptors<Size>::Entry m_entries[Size];
 };
 
 template<std::uint8_t Size>
-Descriptors<Size>::Descriptors()
-{}
-
-template<std::uint8_t Size>
 void Descriptors<Size>::load_gtdr()
 {
-    auto gdtr = DescriptorPointer { .limit = Size, .base = &m_entries };
+    auto gdtr = Descriptors<Size>::Pointer { .limit = Size, .base = &m_entries };
     asm volatile(
         "cli;"
         "lgdtl %0;" ::"m"(gdtr));
@@ -71,6 +67,7 @@ void Descriptors<Size>::load_descriptor_entry(const Descriptors<Size>::Entry &en
     [[unlikely]] if (index >= Size) {
         return;
     }
+
     m_entries[index] = entry;
 }
 
