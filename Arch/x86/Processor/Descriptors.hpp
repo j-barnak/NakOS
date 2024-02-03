@@ -22,6 +22,7 @@ class Descriptors
     // clang-format on
 
     // clang-format off
+    // TODO: This may need to be a std::uint64 because of little endian
     // NOTE: We have to use #pragma pack because gcc doesn't like when we use [[gnu::packed]]
     #pragma pack(push, 1)
     struct Entry
@@ -47,7 +48,6 @@ class Descriptors
         std::uint16_t limit;
         void *base;
     };
-
 
   private:
     Descriptors<Size>::Entry m_entries[Size];

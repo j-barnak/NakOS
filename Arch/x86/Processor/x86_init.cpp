@@ -3,7 +3,7 @@
 #include <cstdint>
 
 // NOTE: Should be global because it needs to persist throughout the lifetime of the kernel. If it's in automatic
-//       storage, the descriptors would deallocate important structures, such as the IDT and TSS.
+//       storage, the descriptors would deallocate important structures, such as the IDT and TSS's.
 auto gdt = Processor::Descriptors<8> {};
 
 static void load_gdt_entries()
@@ -18,12 +18,59 @@ static void load_gdt_entries()
     //        A Task State Segment segment descriptor (its very useful to have at least one)
     //        Room for more segments if you need them (e.g. user-level, LDTs, more TSS, whatever)
 
-
     constexpr auto size = gdt.amount_of_entries();
 
-    // Null Entry
-    auto entry_0 = Processor::Descriptors<size>::Entry {};
-    gdt.load_descriptor_entry(entry_0, 0);
+    auto null_entry = Processor::Descriptors<size>::Entry {};
+
+    auto kernel_code_segment = Processor::Descriptors<size>::Entry {
+        .segment_limit_low = 0,
+        .base_address_low = 0,
+        .base_address_mid = 0,
+        .type = 11,
+        .system = 1,
+        .descriptor_privilege_level = 0,
+        .present = 1,
+        .segment_limit_high = 0,
+        .available = 1,
+        .d_or_b = 0,
+        .granularity = 0,
+        .base_address_high = 0,
+    };
+
+    auto data_segment_descriptor = Processor::Descriptors<size>::Entry {
+        .segment_limit_low = 0,
+        .base_address_low = 0,
+        .base_address_mid = 0,
+        .type = 11,
+        .system = 1,
+        .descriptor_privilege_level = 0,
+        .present = 1,
+        .segment_limit_high = 0,
+        .available = 1,
+        .d_or_b = 0,
+        .granularity = 0,
+        .base_address_high = 0,
+    };
+
+    auto task_state_segment = Processor::Descriptors<size>::Entry {
+        .segment_limit_low = 0,
+        .base_address_low = 0,
+        .base_address_mid = 0,
+        .type = 11,
+        .system = 1,
+        .descriptor_privilege_level = 0,
+        .present = 1,
+        .segment_limit_high = 0,
+        .available = 1,
+        .d_or_b = 0,
+        .granularity = 0,
+        .base_address_high = 0,
+    };
+
+    gdt.load_descriptor_entry(null_entry, 0);
+    gdt.load_descriptor_entry(kernel_code_segment, 1);
+    gdt.load_descriptor_entry(data_segment_descriptor, 2);
+    gdt.load_descriptor_entry(task_state_segment, 3);
 }
 
 void gdt_init()
