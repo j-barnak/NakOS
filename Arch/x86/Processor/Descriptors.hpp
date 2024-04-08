@@ -20,7 +20,6 @@ class Descriptors
     // clang-format off
     constexpr std::uint8_t amount_of_entries() const { return Size; }
     
-    // TODO: This may need to be a std::uint64 because of little endian
     // NOTE: We have to use #pragma pack because gcc doesn't like when we use [[gnu::packed]]
     #pragma pack(push, 1)
     struct Entry
@@ -34,7 +33,7 @@ class Descriptors
         std::uint8_t present : 1;
         std::uint8_t segment_limit_high : 4;
         std::uint8_t available : 1;
-        std::uint8_t _reserved : 1;
+        std::uint8_t reserved : 1;
         std::uint8_t d_or_b : 1;
         std::uint8_t granularity : 1;
         std::uint8_t base_address_high;

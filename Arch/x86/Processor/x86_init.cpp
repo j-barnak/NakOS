@@ -3,8 +3,9 @@
 #include <cstdint>
 
 // NOTE: Should be global because it needs to persist throughout the lifetime of the kernel. If it's in automatic
-//       storage, the descriptors would deallocate important structures, such as the IDT and TSS's.
+//       storage, the descriptors would deallocate important structures, such as the IDT and the TSS
 auto gdt = Processor::Descriptors<8> {};
+auto tss = Processor::Descriptors<gdt.amount_of_entries()>::Entry {};
 
 static void load_gdt_entries()
 {
@@ -20,13 +21,32 @@ static void load_gdt_entries()
 
     constexpr auto size = gdt.amount_of_entries();
 
+    // NOTE: - System descriptors (system field) are set to 0
+    //       - Non-System are marked 1
+    //       - DPL represents rings (0-3 with 0 being the most privileged)
     auto null_entry = Processor::Descriptors<size>::Entry {};
 
-    auto kernel_code_segment = Processor::Descriptors<size>::Entry {
+    auto kernel_mode_code_segment = Processor::Descriptors<size>::Entry {
         .segment_limit_low = 0,
         .base_address_low = 0,
         .base_address_mid = 0,
-        .type = 11,
+        .type = 10,
+        .system = 1,
+        .descriptor_privilege_level = 0,
+        .present = 1,
+        .segment_limit_high = 0,
+        .available = 1,
+        ._reserved = 0,
+        .d_or_b = 1,
+        .granularity = 1,
+        .base_address_high = 0,
+    };
+
+    auto kernel_mode_data_segment = Processor::Descriptors<size>::Entry {
+        .segment_limit_low = 0,
+        .base_address_low = 0,
+        .base_address_mid = 0,
+        .type = 6,
         .system = 1,
         .descriptor_privilege_level = 0,
         .present = 1,
@@ -38,13 +58,29 @@ static void load_gdt_entries()
         .base_address_high = 0,
     };
 
-    auto data_segment_descriptor = Processor::Descriptors<size>::Entry {
+    auto user_mode_code_segment = Processor::Descriptors<size>::Entry {
         .segment_limit_low = 0,
         .base_address_low = 0,
         .base_address_mid = 0,
-        .type = 11,
+        .type = 10,
         .system = 1,
-        .descriptor_privilege_level = 0,
+        .descriptor_privilege_level = 3,
+        .present = 1,
+        .segment_limit_high = 0,
+        .available = 1,
+        ._reserved = 0,
+        .d_or_b = 1,
+        .granularity = 1,
+        .base_address_high = 0,
+    };
+
+    auto user_mode_data_segment = Processor::Descriptors<size>::Entry {
+        .segment_limit_low = 0,
+        .base_address_low = 0,
+        .base_address_mid = 0,
+        .type = 6,
+        .system = 1,
+        .descriptor_privilege_level = 3,
         .present = 1,
         .segment_limit_high = 0,
         .available = 1,
@@ -58,7 +94,7 @@ static void load_gdt_entries()
         .segment_limit_low = 0,
         .base_address_low = 0,
         .base_address_mid = 0,
-        .type = 11,
+        .type = 2,
         .system = 1,
         .descriptor_privilege_level = 0,
         .present = 1,
@@ -71,8 +107,8 @@ static void load_gdt_entries()
     };
 
     gdt.load_descriptor_entry(null_entry, 0);
-    gdt.load_descriptor_entry(kernel_code_segment, 1);
-    gdt.load_descriptor_entry(data_segment_descriptor, 2);
+    gdt.load_descriptor_entry(kernel_mode_code_segment, 1);
+    gdt.load_descriptor_entry(kernel_mode_data_segment, 2);
     gdt.load_descriptor_entry(task_state_segment, 3);
 }
 
