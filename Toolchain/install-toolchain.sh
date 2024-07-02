@@ -34,7 +34,8 @@ case $PWD/ in
     cd ..
     git clone git://gcc.gnu.org/git/gcc.git gcc
     cd gcc
-    git checkout releases/gcc-13
+    git checkout releases/gcc-14
+    # git checkout releases/gcc-13
     cd ..
     mkdir build-gcc
     cd build-gcc
