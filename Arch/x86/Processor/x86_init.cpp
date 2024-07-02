@@ -36,7 +36,7 @@ static void load_gdt_entries()
         .present = 1,
         .segment_limit_high = 0,
         .available = 1,
-        ._reserved = 0,
+        .reserved = 0,
         .d_or_b = 1,
         .granularity = 1,
         .base_address_high = 0,
@@ -52,7 +52,7 @@ static void load_gdt_entries()
         .present = 1,
         .segment_limit_high = 0,
         .available = 1,
-        ._reserved = 0,
+        .reserved = 0,
         .d_or_b = 0,
         .granularity = 0,
         .base_address_high = 0,
@@ -68,7 +68,7 @@ static void load_gdt_entries()
         .present = 1,
         .segment_limit_high = 0,
         .available = 1,
-        ._reserved = 0,
+        .reserved = 0,
         .d_or_b = 1,
         .granularity = 1,
         .base_address_high = 0,
@@ -84,7 +84,7 @@ static void load_gdt_entries()
         .present = 1,
         .segment_limit_high = 0,
         .available = 1,
-        ._reserved = 0,
+        .reserved = 0,
         .d_or_b = 0,
         .granularity = 0,
         .base_address_high = 0,
@@ -100,7 +100,7 @@ static void load_gdt_entries()
         .present = 1,
         .segment_limit_high = 0,
         .available = 1,
-        ._reserved = 0,
+        .reserved = 0,
         .d_or_b = 0,
         .granularity = 0,
         .base_address_high = 0,
@@ -114,7 +114,7 @@ static void load_gdt_entries()
 
 void gdt_init()
 {
-    gdt.load_gtdr();
+    gdt.load_gdtr();
     // NOTE: This is debugging information. To check if the GDT is loaded in the right place, uncomment the line of
     //       assembly and check what's on top of the stack with:
     //       (gdb) x/1xg $esp

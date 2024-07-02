@@ -30,7 +30,6 @@ std::uint16_t Graphics::ScreenCharacter::to_16() const
     return character;
 }
 
-
 void Graphics::Terminal::write_string(char str[], std::size_t x, std::size_t y)
 {
     for (std::size_t i = 0; str[i] != '\0'; ++i) {

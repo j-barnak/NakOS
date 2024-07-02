@@ -16,13 +16,11 @@ class Descriptors
     Descriptors() = default;
 
     void load_descriptor_entry(const Entry &entry, std::ptrdiff_t index);
-    void load_gtdr();
+    void load_gdtr();
     // clang-format off
     constexpr std::uint8_t amount_of_entries() const { return Size; }
     
-    // NOTE: We have to use #pragma pack because gcc doesn't like when we use [[gnu::packed]]
-    #pragma pack(push, 1)
-    struct Entry
+    struct [[gnu::packed]] Entry
     {
         std::uint16_t segment_limit_low;
         std::uint16_t base_address_low;
@@ -38,7 +36,6 @@ class Descriptors
         std::uint8_t granularity : 1;
         std::uint8_t base_address_high;
     };
-    #pragma pack(pop)
     // clang-format on
 
     struct [[gnu::packed]] Pointer
@@ -52,7 +49,7 @@ class Descriptors
 };
 
 template<std::uint8_t Size>
-void Descriptors<Size>::load_gtdr()
+void Descriptors<Size>::load_gdtr()
 {
     auto gdtr = Descriptors<Size>::Pointer { .limit = Size, .base = &m_entries };
 
