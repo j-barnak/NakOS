@@ -1,4 +1,5 @@
 #include "Processor/x86_init.hpp"
+#include "Error.hpp"
 #include "Processor/Descriptors.hpp"
 #include <cstdint>
 
@@ -27,6 +28,7 @@ static void load_gdt_entries()
     //       - Non-System are marked 1
     //       - DPL represents rings (0-3 with 0 being the most privileged)
     auto null_entry = Processor::Descriptors<size>::Entry {};
+
     // - Kernel Mode Data Segment
     //   - Base:        0x0000
     //   - Limit:       0xFFFF
@@ -34,6 +36,10 @@ static void load_gdt_entries()
     //   - Flags:       0xC
     // - User Mode Code Segment
     auto _kernel_mode_code_segment = Processor::Descriptors<size>::Entry {};
+    Processor::Descriptors<size>::set_limit(_kernel_mode_code_segment);
+    Processor::Descriptors<size>::set_base(0, _kernel_mode_code_segment);
+    Processor::Descriptors<size>::set_access_byte(0x92, _kernel_mode_code_segment);
+    Processor::Descriptors<size>::set_flags(0xC, _kernel_mode_code_segment);
 
     //   - Base:        0x0000
     //   - Limit:       0xFFFF
@@ -43,24 +49,35 @@ static void load_gdt_entries()
     //   - Flags:       0xC
     //     - | 1 | 1 | 0 | 0 |
     //       | G | DB| L | R |
-    auto kernel_mode_code_segment = Processor::Descriptors<size>::Entry {
-        .segment_limit_low = std::uint16_t { 0xFFFF },
-        .base_address_low = std::uint16_t { 0x0000 },
-        .base_address_mid = std::uint8_t { 0x00 },
-        .type = std::uint8_t { 0x1 }, // TODO Need to verify
-        .system = std::uint8_t { 0x1 },
-        .descriptor_privilege_level = std::uint8_t { 0x0 },
-        .present = std::uint8_t { 0x0 },
-        .segment_limit_high = std::uint8_t { 0xF },
-        .available = std::uint8_t { 0x1 }, // TODO Need to verify
-        .reserved = std::uint8_t { 0x0 },
-        .db = std::uint8_t { 0x0 },
-        .granularity = std::uint8_t { 0x1 },
-        .base_address_high = std::uint8_t { 0xFF },
-    };
+    auto kernel_mode_data_segment = Processor::Descriptors<size>::Entry {};
+    Processor::Descriptors<size>::set_base(0, kernel_mode_data_segment);
+    Processor::Descriptors<size>::set_limit(kernel_mode_data_segment);
+    Processor::Descriptors<size>::set_access_byte(0x9A, kernel_mode_data_segment);
+    Processor::Descriptors<size>::set_flags(0xC, kernel_mode_data_segment);
 
-    auto kernel_mode_data_segment { 1 };
+    // User Mode Code Segment
+    // Offset = 0x0018
+    // Base = 0
+    // Limit = 0xFFFFF
+    // Access Byte = 0xFA
+    // Flags = 0xC
+    TODO();
 
+    // User Mode Data Segment
+    // Offset = 0x0020
+    // Base = 0
+    // Limit = 0xFFFFF
+    // Access Byte = 0xF2
+    // Flags = 0xC
+    TODO();
+
+    // TSS
+    // Offset = 0x0028
+    // Base = &TSS
+    // Limit = sizeof(TSS)-1
+    // Access Byte = 0x89
+    // Flags = 0x0
+    TODO();
 
     gdt.load_descriptor_entry(null_entry, 0);
 }

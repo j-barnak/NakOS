@@ -6,6 +6,7 @@
 
 namespace Processor {
 
+// Section 3.4.5.1 Code and Data Segment Descriptor Types
 enum class AccessByte : std::uint8_t {
     // Data Segments
     DataReadOnly = 0b0000,
@@ -61,7 +62,7 @@ class Descriptors
         std::uint8_t present : 1;
         std::uint8_t segment_limit_high : 4;
         std::uint8_t available : 1;
-        std::uint8_t reserved : 1;
+        std::uint8_t long_mode : 1;
         std::uint8_t db : 1;
         std::uint8_t granularity : 1;
         std::uint8_t base_address_high;
@@ -132,6 +133,8 @@ void Descriptors<Size>::set_limit(Descriptors<Size>::Entry &descriptor)
 //     +---+---+---+---+
 //     | G | DB| L | R |
 //     +---+---+---+---+
+//
+// R is also known as available (avl)
 template<std::uint8_t Size>
 void Descriptors<Size>::set_flags(std::uint8_t flags, Descriptors<Size>::Entry &entry)
 {
@@ -147,12 +150,12 @@ void Descriptors<Size>::set_flags(std::uint8_t flags, Descriptors<Size>::Entry &
     const std::uint8_t db_shift = 2;
     entry.db = (db_mask & flags) >> db_shift;
 
-    const std::uint8_t l_mask = 0b0010;
-    const std::uint8_t l_shift = 1;
-    entry.l_mask = (l_mask & flags) >> db_shift;
+    const std::uint8_t long_mode_mask = 0b0010;
+    const std::uint8_t long_mode_shift = 1;
+    entry.long_mode = (long_mode_mask & flags) >> db_shift;
 
-    const std::uint8_t r_mask = 0b0000;
-    entry.reserved = r_mask & flags;
+    const std::uint8_t avl_mask = 0b0000;
+    entry.available = avl_mask & flags;
 }
 
 // Access Byte:
