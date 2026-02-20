@@ -9,19 +9,8 @@ auto tss = Processor::Descriptors<gdt.amount_of_entries()>::Entry {};
 
 static void load_gdt_entries()
 {
-    // Links: - https://wiki.osdev.org/GDT_Tutorial
-    //        - https://wiki.osdev.org/Global_Descriptor_Table
-
-    // The following Segments for paging _and_ ignoring segmentation. Segmentation in long mode is ignored; and so it
-    // makes doesn't make sense to account use segmentation.
     // - NULL descriptor
     // - Kernel Mode Code Segment
-    // - Kernel Mode Data Segment
-    //   - Base:        0x0000
-    //   - Limit:       0xFFFF
-    //   - Access Byte: 0x92
-    //   - Flags:       0xC
-    // - User Mode Code Segment
     //   - Base:        0x0000
     //   - Limit:       0xFFFF
     //   - Access Byte: 0xFA
@@ -38,6 +27,13 @@ static void load_gdt_entries()
     //       - Non-System are marked 1
     //       - DPL represents rings (0-3 with 0 being the most privileged)
     auto null_entry = Processor::Descriptors<size>::Entry {};
+    // - Kernel Mode Data Segment
+    //   - Base:        0x0000
+    //   - Limit:       0xFFFF
+    //   - Access Byte: 0x92
+    //   - Flags:       0xC
+    // - User Mode Code Segment
+    auto _kernel_mode_code_segment = Processor::Descriptors<size>::Entry {};
 
     //   - Base:        0x0000
     //   - Limit:       0xFFFF
