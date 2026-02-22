@@ -10,23 +10,8 @@ auto tss = Processor::Descriptors<gdt.amount_of_entries()>::Entry {};
 
 static void load_gdt_entries()
 {
-    // - NULL descriptor
-    // - Kernel Mode Code Segment
-    //   - Base:        0x0000
-    //   - Limit:       0xFFFF
-    //   - Access Byte: 0xFA
-    //   - Flags:       0xC
-    // - User Mode Data Segment
-    //   - Base:        std::addrof(tss)
-    //   - Limit:       sizeof(tss) - 1
-    //   - Access Byte: 0x89
-    //   - Flags:       0x00
-
     constexpr auto size = gdt.amount_of_entries();
 
-    // NOTE: - System descriptors (system field) are set to 0
-    //       - Non-System are marked 1
-    //       - DPL represents rings (0-3 with 0 being the most privileged)
     auto null_entry = Processor::Descriptors<size>::Entry {};
 
     // - Kernel Mode Data Segment
@@ -34,12 +19,11 @@ static void load_gdt_entries()
     //   - Limit:       0xFFFF
     //   - Access Byte: 0x92
     //   - Flags:       0xC
-    // - User Mode Code Segment
-    auto _kernel_mode_code_segment = Processor::Descriptors<size>::Entry {};
-    Processor::Descriptors<size>::set_limit(_kernel_mode_code_segment);
-    Processor::Descriptors<size>::set_base(0, _kernel_mode_code_segment);
-    Processor::Descriptors<size>::set_access_byte(0x92, _kernel_mode_code_segment);
-    Processor::Descriptors<size>::set_flags(0xC, _kernel_mode_code_segment);
+    auto kernel_mode_code_segment = Processor::Descriptors<size>::Entry {};
+    Processor::Descriptors<size>::set_limit(kernel_mode_code_segment);
+    Processor::Descriptors<size>::set_base(0, kernel_mode_code_segment);
+    Processor::Descriptors<size>::set_access_byte(0x92, kernel_mode_code_segment);
+    Processor::Descriptors<size>::set_flags(0xC, kernel_mode_code_segment);
 
     //   - Base:        0x0000
     //   - Limit:       0xFFFF
@@ -61,7 +45,11 @@ static void load_gdt_entries()
     // Limit = 0xFFFFF
     // Access Byte = 0xFA
     // Flags = 0xC
-    TODO();
+    auto user_mode_code_segment = Processor::Descriptors<size>::Entry {};
+    Processor::Descriptors<size>::set_base(0, user_mode_code_segment);
+    Processor::Descriptors<size>::set_limit(user_mode_code_segment);
+    Processor::Descriptors<size>::set_access_byte(0xFA, user_mode_code_segment);
+    Processor::Descriptors<size>::set_flags(0xC, user_mode_code_segment);
 
     // User Mode Data Segment
     // Offset = 0x0020
@@ -69,7 +57,11 @@ static void load_gdt_entries()
     // Limit = 0xFFFFF
     // Access Byte = 0xF2
     // Flags = 0xC
-    TODO();
+    auto user_mode_data_segment = Processor::Descriptors<size>::Entry {};
+    Processor::Descriptors<size>::set_base(0, user_mode_data_segment);
+    Processor::Descriptors<size>::set_limit(user_mode_data_segment);
+    Processor::Descriptors<size>::set_access_byte(0xF2, user_mode_data_segment);
+    Processor::Descriptors<size>::set_flags(0xC, user_mode_data_segment);
 
     // TSS
     // Offset = 0x0028
@@ -77,9 +69,16 @@ static void load_gdt_entries()
     // Limit = sizeof(TSS)-1
     // Access Byte = 0x89
     // Flags = 0x0
-    TODO();
+    Processor::Descriptors<size>::set_base(0, tss);
+    Processor::Descriptors<size>::set_limit(tss);
+    Processor::Descriptors<size>::set_access_byte(0x89, tss);
+    Processor::Descriptors<size>::set_flags(0, tss);
 
     gdt.load_descriptor_entry(null_entry, 0);
+    gdt.load_descriptor_entry(kernel_mode_code_segment, 1);
+    gdt.load_descriptor_entry(kernel_mode_data_segment, 2);
+    gdt.load_descriptor_entry(user_mode_code_segment, 3);
+    gdt.load_descriptor_entry(user_mode_data_segment, 4);
 }
 
 void gdt_init()
@@ -91,4 +90,6 @@ void gdt_init()
     //
     //       asm volatile("sgdt 0x0(%esp);");
     load_gdt_entries();
+
+    asm volatile("sgdt 0x0(%esp);");
 }
