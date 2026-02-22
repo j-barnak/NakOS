@@ -8,6 +8,7 @@
 NakOS.iso
 build/
 build/*
+Build
 Toolchain/opt/
 Toolchain/opt/*
 Toolchain/src/
