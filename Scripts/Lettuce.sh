@@ -212,7 +212,9 @@ case "$command" in
         launch_qemu_debug "true" "$no_display"
         ;;
     go)
-        echo "TODO"
+        no_display="true"
+        build_kernel
+        launch_qemu_debug "true" "$no_display"
         ;;
     *)
         log_error "Unknown command: $command"
